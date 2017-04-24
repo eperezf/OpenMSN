@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <div class="container-fluid fill">
+      <div class="row">
+        <div class="col-md-9 col-sm-9 col-xs-9">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">To: <div id="nickname" style="display:inline-block;">[NICKNAME]</div> <<div id="email" style="display:inline-block;">[EMAIL]</div>></h3>
+            </div>
+            <div class="panel-body historybox" id="historybox">
+              <p>
+                Never give out your password or credit card number in an instant message conversation.</br>–––
+              </p>
+            </div>
+          </div>
+          <form class="form-inline">
+            <div class="input-group">
+             <textarea class="form-control" id="chatarea"></textarea>
+              <span class="input-group-btn">
+                <button class="btn btn-default sendbtn" type="button" onclick="SetMessage(chatarea.value)">Send</button>
+              </span>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-3">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              PHOTO AREA
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+        </div>
+      </div>
+    </div>
+    <script src="chat.js"></script>
+    <script src="webjs/jquery.js" onload="window.$ = window.jQuery = module.exports;"></script>
+    <script src="webjs/bootstrap.js" ></script>
+    <script>
+      $("#chatarea").keypress(function (e) {
+          if(e.which == 13 && !e.shiftKey) {
+              SetMessage(chatarea.value)
+              e.preventDefault();
+              return false;
+          }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>CONFIG WINDOW</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <div class="container-fluid">
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
+          <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+          <li role="presentation"><a href="#messages" aria-control="messages" role="tab" data-toggle="tab">Messages</a></li>
+        </ul>
+    </div>
+
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane fade" id="general">
+        <div class="col-md-12">
+          GENERAL SECTION
+        </div>
+      </div>
+
+      <div role="tabpanel" class="tab-pane fade in active" id="profile">
+        <div class="col-md-12">
+          <form id="ProfileForm">
+            <div class="form-group col-md-12">
+              <label for="nickname">Nickname</label>
+              <input type="text" class="form-control" id="nickname" placeholder="Nickname" required="">
+            </div>
+            <div class="form-group col-md-12">
+              <label for="pmessage">Personal Message</label>
+              <input type="text" class="form-control" id="pmessage" placeholder="Personal Message" required="">
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div role="tabpanel" class="tab-pane fade" id="messages">
+        <div class="col-md-12">
+          MESSAGES SECTION
+        </div>
+      </div>
+
+    </div>
+    <input class="btn btn-success center-block" type="button" id="submit" onclick="UpdateConfig()" value="Apply">
+
+    <script src="config.js"></script>
+    <script src="webjs/jquery.js" onload="window.$ = window.jQuery = module.exports;"></script>
+    <script src="webjs/bootstrap.js" ></script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>ADD WINDOW</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="col-md-12">
+        <form id="ProfileForm">
+          <div class="form-group col-md-12">
+            <label for="jid">Email</label>
+            <input type="text" class="form-control" id="jid" placeholder="User@example.com" required="">
+          </div>
+        </form>
+      </div>
+      <div class="col-md-12">
+        <input class="btn btn-success" type="button" onclick="AddContact()" value="Add">
+      </div>
+    </div>
+
+    <script src="add.js"></script>
+    <script src="webjs/jquery.js" onload="window.$ = window.jQuery = module.exports;"></script>
+    <script src="webjs/bootstrap.js" ></script>
+  </body>
+</html>

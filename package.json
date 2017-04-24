@@ -1,0 +1,17 @@
+{
+  "name": "OpenMSN",
+  "productName": "OpenMSN",
+  "version": "0.1.0",
+  "description": "OpenMSN Project",
+  "main": "app.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^1.6.5",
+    "node-xmpp-client": "3.2.0"
+  },
+  "dependencies": {
+    "node-xmpp-client": "^3.2.0"
+  }
+}

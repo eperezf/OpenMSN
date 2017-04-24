@@ -1,0 +1,139 @@
+body {
+  font-size: 12px;
+  background: url('msn75/735.png') bottom right no-repeat, linear-gradient(to bottom, rgb(255,255,255), rgb(203,216,239), rgb(255,255,255));
+    box-shadow: 0px 0px 0px 1px #8596ca inset;
+    box-sizing: border-box;
+}
+
+.topbar {
+  margin-top: 0px;
+  height: 21px;
+  padding-top: 0px;
+  padding-left: 20px;
+  background-image: url('msn75/833.png'), url('msn75/833f.png'), url('msn75/834.png');
+  background-position: top left, top right, top center;
+  background-repeat: no-repeat, no-repeat, repeat-x;
+  color: #153290;
+}
+
+.titletext {
+  display: inline-block;
+}
+
+.profilepic {
+  margin-top: 25px;
+}
+
+.picture{
+  border: 1px solid;
+  border-radius: 4px;
+  border-color: #4e6ba0;
+}
+
+.loginform {
+  margin-top: 4px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 176px;
+}
+
+.formlabel{
+  margin-top: 8px;
+}
+
+.textinput {
+  border: 1px solid;
+  border-color: #8396c3;
+  height: 21px;
+  width: 100%;
+  padding-left: 5px;
+}
+
+.status {
+  display: inline-block;
+  margin-bottom: 14px;
+}
+
+.statusselect {
+  width: 60px;
+  border: 1px solid;
+  border-color: transparent;
+  background: transparent;
+}
+
+.statusselect:hover {
+  background: #f2f5fb;
+  border: 1px solid;
+  border-radius: 1px;
+  border-bottom-color: #4f6ba0;
+  border-right-color: #4f6ba0;
+  border-left-color: #aebadf;
+  border-top-color: #aebadf;
+}
+
+.checkboxes {
+
+}
+
+.signin {
+  width: 83px;
+  margin-left: auto;
+  height: 28px;
+  margin-right: auto;
+  margin-top: 25px;
+}
+
+.signinbt {
+  padding: 0px;
+    height: 28px;
+    width: 83px;
+}
+
+.col-md-12 {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.footer {
+    position: fixed;
+    height: 74px;
+    bottom: 0;
+    width: 100%;
+}
+
+.colfooter {
+  padding-left: 28px;
+  padding-right: 28px;
+  padding-bottom: 8px;
+}
+
+.mpn {
+  margin-left: -18px;
+}
+
+.inline {
+  display: inline-block;
+}
+
+.nopadding {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.start-hidden {
+  display: none;
+}
+
+.b-padding{
+  padding-bottom: 8px;
+}
+
+.moreindex {
+  z-index: 10;
+}
+
+.pointer {
+  cursor: pointer;
+  width: auto;
+  display: inline-block;
+}

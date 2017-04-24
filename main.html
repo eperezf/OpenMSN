@@ -1,0 +1,83 @@
+<html>
+<head>
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/Main.css">
+  <meta charset="utf-8" />
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 topbar">
+        <img src="img/msn75/830.png" />
+        <div class="titletext">
+          Messenger
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 infobar">
+        <div class="col-sm-2 col-md-2 col-xs-2 profpic">
+          <img src="img/msn75/1048.png" class="picture"/>
+        </div>
+        <div class="col-md-10 col-sm-10 col-xs-10 nopadding infolines">
+          <div class="col-md-12">
+            <div class="status">
+              <select name="status" class="statusselect" id="statusselect" onchange="SetStatus(this)">
+                <option value="show" disabled selected hidden id="nickstat">Eduardo Pérez (Online)</option>
+                <option value="available">Online</option>
+                <option value="dnd">Busy</option>
+                <option value="away-brb">Be Right Back</option>
+                <option value="away">Away</option>
+                <option value="dnd-otp">On The Phone</option>
+                <option value="away-otl">Out To Lunch</option>
+                <option disabled>──────────</option>
+                <option value="cfg-vcc">View my contact card</option>
+                <option value="cfg-cdp">Change my Display Picture</option>
+                <option disabled>──────────</option>
+                <option value="cfg-pse">Personal Settings</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-12 leftbump upmessage">
+            type a personal message
+          </div>
+          <div class="col-md-12 leftbump">
+            <img src="img/msn75/1091.png" /> (0)
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 tabinfo">
+        <div class="col-md-2 col-sm-2 col-xs-2 tabicon">
+          <img src="img/msn75/701.png" />
+        </div>
+        <div class="col-md-10 col-sm-10 col-xs-10 infoadd nopadding">
+          <div class="col-md-12 info">
+            <a href="#">Click here to know more about the project and how to keep it running.</a>
+          </div>
+          <div class="col-md-12 addcontact" onclick="addContact()">
+            <img src="img/msn75/1096.png" /> Add a contact
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 contactlist">
+        <div class="clisttable">
+          <img src="img/msn75/1082.png" class="caticon"/>Online
+          <div class="ctree" id="onlinelist">
+          </div>
+          <img src="img/msn75/1082.png" class="caticon"/>Offline
+          <div class="ctree" id="offlinelist">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 bottombanner">
+        <img src="img/msn75/415.gif" class="banner" />
+      </div>
+    </div>
+  </div>
+  <script src="main.js"></script>
+  <script src="webjs/jquery.js" onload="window.$ = window.jQuery = module.exports;"></script>
+  <script src="webjs/bootstrap.js" ></script>
+</body>
+</html>

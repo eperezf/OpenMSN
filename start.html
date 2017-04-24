@@ -1,0 +1,88 @@
+<html>
+<head>
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/Login.css">
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 topbar">
+        <img src="img/msn75/830.png" /> <div class="titletext">
+          Messenger
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center profilepic" id="profilepic">
+        <img src="img/msn75/1048.png" class="picture" />
+      </div>
+    </div>
+    <div class="row" onkeyup="return CheckKey(event)">
+      <div class="col-md-12 loginform">
+        <div class="formlabel">
+          E-mail address:
+        </div>
+        <div class="input">
+          <input type="text" class="textinput" id="email">
+        </div>
+        <div class="formlabel">
+          Password:
+        </div>
+        <div class="input">
+          <input type="password" class="textinput" id="password">
+        </div>
+        <div class="formlabel status">
+          Status:
+        </div>
+        <div class="status">
+          <select name="status" class="statusselect" id="status">
+            <option value="available">Online</option>
+            <option value="dnd">Busy</option>
+            <option value="away-brb">Be Right Back</option>
+            <option value="away">Away</option>
+            <option value="dnd-otp">On The Phone</option>
+            <option value="away-otl">Out To Lunch</option>
+          </select>
+        </div>
+        <div class="checkboxes" id="checkboxesrm">
+          <div class="cbgroup" id="cbgroup">
+            <input type="checkbox" name="vehicle" value="Bike" class="checkboxrm"> Remember Me<br>
+            <input type="checkbox" name="vehicle" value="Bike" class="checkboxrm"> Remember my Password<br>
+            <input type="checkbox" name="vehicle" value="Bike" class="checkboxrm"> Sign me in automatically<br>
+          </div>
+          <div class="cbgroup text-center start-hidden" id="loginanim">
+            <p>
+              Signing In...
+            </p>
+            <img src="img/msn75/signin.gif" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 signin text-center">
+        <button type="button" class="signinbt" onclick="submitLData()">Sign In</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="footer">
+        <div class="col-md-12 colfooter">
+          <div onclick="LinkPassword()" class="pointer">Forgot your Password?</div>
+        </div>
+        <div class="col-md-12 colfooter">
+          <div class="col-md-6 col-sm-6 col-xs-6 nopadding b-padding moreindex">
+            <div onclick="LinkService()" class="pointer">Service Status</div>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-6 nopadding b-padding moreindex text-right">
+            <div onclick="LinkRegister()" class="text-right pointer">Get a new account</div>
+          </div>
+          <div class="col-md-12 mpn">
+            <p>
+              <img src="img/msn75/2089.png" /> Microsoft Passport Network
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="start.js"></script>
+</body>
+</html>

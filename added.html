@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>ADDED WINDOW</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="col-md-12">
+        <p>
+          <div id="nick" style="display:inline-block;">[USERNAME]</div> (<div id="email" style="display:inline-block;">[EMAIL]</div>) has added you to his contact list.
+        </p>
+        <p>
+          If you accept him, he will be able to see your status and start a chat with you.
+        </p>
+      </div>
+      <div class="col-md-12">
+        <input class="btn btn-success" type="button" onclick="AcceptFriend()" value="Accept">
+        <input class="btn btn-warning" type="button" onclick="IgnoreFriend()" value="Ignore">
+      </div>
+    </div>
+
+    <script src="added.js"></script>
+    <script src="webjs/jquery.js" onload="window.$ = window.jQuery = module.exports;"></script>
+    <script src="webjs/bootstrap.js" ></script>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+ERROR CODES:
+ERR-001: Nickname is not new. Not changing
+
+INFORMATION CODES:
+INF-002: Login successful with status "STATUS"
+INF-003: Add window created
+INF-004: Main window created
+INF-005: Config screen created
+INF-006: Login screen created
+INF-007: Accepted solicitude from NICKNAME (EMAIL)
+
+PRESENCE SENT CODES:
+PRS-002: New Status (STATE)
+PRS-003: Sent subscription solicitude to EMAIL
+PRS-004: Sent subscription automatic solicitude to EMAIL
+
+PRESENCE RECEIVED CODES:
+PRR-002: User NICKNAME (EMAIL) wants to add you
+PRR-003: Contact EMAIL status changed to
+
+IQ SENT CODES:
+IQS-001: Contat list solicitude sent
+IQS-002: New Nickname (NICKNAME)
+IQS-003: Saving nickname into roster (NICKNAME)
+
+IQ RECEIVED CODES:
+IQR-001: Contact List received
+
+MESSAGE SENT CODES:
+MES-000: Message sent to EMAIL: "MESSAGE"
