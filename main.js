@@ -94,6 +94,11 @@ ipcRenderer.on('contact-status-change', (event, arg) => {
   cstatusChange(from, arg.status)
 })
 
+ipcRenderer.on('contact-nickname-change', (event, arg) => {
+  document.getElementById(arg.email).getElementsByClassName("cnickname")[0].textContent = arg.nickname
+  console.log('Contact ' + arg.from + ' changed his status to ' + arg.nickname)
+})
+
 ipcRenderer.on('insert-contact', (event, arg) =>{
   console.log("Contact info received: " + arg.email + " is " + arg.status + " (" + arg.i_status + ")")
   if (document.getElementById(arg.email) == null) {

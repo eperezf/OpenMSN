@@ -2,3 +2,17 @@
 \.DS_Store
 
 node_modules/**
+
+OpenMSN-darwin-x64/
+
+OpenMSN-linux-armv7l/
+
+OpenMSN-linux-ia32/
+
+OpenMSN-linux-x64/
+
+OpenMSN-mas-x64/
+
+OpenMSN-win32-ia32/
+
+OpenMSN-win32-x64/

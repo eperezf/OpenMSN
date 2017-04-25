@@ -78,11 +78,11 @@ function OpenStart(){
     start.loadURL('file://' + __dirname + '/start.html')
     start.once('ready-to-show', () => {
       start.show()
-      console.log("Start screen has been created.");
+      console.log("!!!!Start screen has been created!!!!");
     })
   }
   start.on('closed', () => {
-    console.log("Start screen has been closed.");
+    console.log("!!!!Start screen has been closed!!!!");
     start = null
   })
 }
@@ -91,7 +91,7 @@ function OpenStart(){
 //2.- Main screen: Nickname, status, personal message, contact list and menus.
 function OpenMain(){
   if (main != null){
-    console.log("There's already a main screen open");
+    console.log("!!!!There's already a main screen open!!!!");
     main.focus()
   }
   else {
@@ -105,12 +105,12 @@ function OpenMain(){
     main.loadURL('file://' + __dirname + '/main.html')
     main.once('ready-to-show', () => {
       main.show()
-      console.log("Main screen has been created.");
+      console.log("!!!!Main screen has been created!!!!");
       InfoFill();
     })
   }
   main.on('closed', () => {
-    console.log("Main Screen has been closed.");
+    console.log("!!!!Main Screen has been closed!!!!");
     main = null
   })
 }
@@ -120,7 +120,7 @@ function OpenMain(){
 //4.- Config screen: Configuration and settings
 function OpenConfig(){
   if (config != null){
-    console.log("There's already a config screen open");
+    console.log("!!!!There's already a config screen open!!!!");
     config.focus()
   }
   else {
@@ -137,7 +137,7 @@ function OpenConfig(){
     })
   }
   config.on('closed', () => {
-    console.log("Config screen has been closed.");
+    console.log("!!!!Config screen has been closed!!!!");
     config = null
   })
 }
@@ -149,7 +149,7 @@ ipcMain.on('open-chat', (event, email) => {
 
 function OpenChat(email, focus){
   if (chat[email] != null){
-    console.log("There's already a chat screen for " + email);
+    console.log("!!!!There's already a chat screen for " + email + "!!!!");
   }
   else {
     chat[email] = new BrowserWindow ({
@@ -163,14 +163,14 @@ function OpenChat(email, focus){
     chat[email].loadURL('file://' + __dirname + '/chat.html')
     chat[email].once('ready-to-show', () => {
       chat[email].show()
-      console.log("Opened chat screen for " + email);
+      console.log("!!!!Opened chat screen for " + email + "!!!!");
       chat[email].webContents.send('contact-info', {email: email, nickname: contact[email].nickname, status: contact[email].status, i_status: contact[email].i_status, own_nickname: nickname })
     })
   }
   chat[email].on('closed', () => {
     chat[email] = null
     index = chat.indexOf(email)
-    console.log("Closed chat screen for " + email);
+    console.log("!!!!Closed chat screen for " + email + "!!!!");
     if (index > -1) {
       chat.splice(index, 1);
     }
@@ -197,15 +197,15 @@ ipcMain.on ('login-data', (event, newjid, password, newi_status) => {
   i_status = newi_status
   LoginUser(jid, password)
   user.on('online', function() {
-    console.log("User is now online");
     event.sender.send('login-status', 'ok')
     OpenMain()
     start.close()
     AskRoster();
-    DiscoGet();
+    SendCaps();
     ListenStanzas()
     SetStatus(i_status);
     loggedIn = true
+
 
 
   })
@@ -234,13 +234,6 @@ function KeepAlive(){
   }, 30000);
 }
 
-function DiscoGet(){
-  var stanza = new Client.Stanza('iq', {id:'DiscoGet', type:'get', from: jid, to: 'localhost'})
-  .c('query', {xmlns: 'http://jabber.org/protocol/disco#info'})
-  user.send(stanza)
-  console.log("Disco request sent.");
-}
-
 function ListenStanzas(){
 
   user.on('stanza', function(stanza) {
@@ -251,11 +244,9 @@ function ListenStanzas(){
         //The stanza is a chat!
         if (stanza.getChild('composing') !== undefined){
           //The stanza is a "typing..." type
-          console.log(stanza.attrs.from + ' is typing...')
         }
         else if (stanza.getChild('paused') !== undefined){
           //The stanza is a "paused..." type
-          console.log(stanza.attrs.from + ' stopped typing...')
         }
         else {
           //It's a text message.
@@ -271,9 +262,15 @@ function ListenStanzas(){
         }
       }
       else if (stanza.attrs.type === 'headline'){
-        console.log(stanza.tree().toString());
+        if (stanza.getChild('event').getChild('items').attrs.node == "http://jabber.org/protocol/nick"){
+          var cnewnick = stanza.getChild('event').getChild('items').getChild('item').getChildText('nick')
+          if (stanza.attrs.from != jid){
+            UpdateContact(stanza.attrs.from, "nickname", cnewnick)
+          }
+        }
       }
       else {
+        console.log(">>>>Unknown Message received. Logging<<<<");
         console.log(stanza.tree().toString());
       }
     }
@@ -284,9 +281,6 @@ function ListenStanzas(){
             console.log("Roster list received.");
             RosterPopulate(stanza)
           }
-          else if (stanza.getChild('query').attrs.xmlns == 'http://jabber.org/protocol/disco#info'){
-            console.log("Disco request received.")
-          }
         }
         else {
           console.log(stanza.tree().toString())
@@ -296,6 +290,12 @@ function ListenStanzas(){
         if (stanza.getChild('query').attrs.xmlns == 'jabber:iq:roster'){
           console.log('Roster Set acknowledged.');
         }
+      }
+      else if (stanza.attrs.type == 'get'){
+        console.log(">>>>Get type IQ received<<<<");
+        console.log(stanza.tree().toString());
+        SendFeatures(stanza.attrs.id);
+
       }
     }
     else if (stanza.is('presence')){
@@ -325,13 +325,19 @@ function ListenStanzas(){
               UpdateContact(sfrom, 'status', sstatus)
             }
             else {
-              sfrom = stanza.attrs.from
-              sfrom = sfrom.substring(0, sfrom.indexOf('/'));
-              sstatus = 'Offline'
-              sshow = 'unavailable'
-              console.log("Presence received: " + sfrom + " is now " + sstatus + " (" + sshow + ")")
-              UpdateContact(sfrom, 'i_status', sshow)
-              UpdateContact(sfrom, 'status', sstatus)
+              if (stanza.getChild('c')){
+                console.log(">>>>Capabilities received<<<<");
+                console.log(stanza.tree().toString());
+              }
+              else {
+                sfrom = stanza.attrs.from
+                sfrom = sfrom.substring(0, sfrom.indexOf('/'));
+                sstatus = 'Offline'
+                sshow = 'unavailable'
+                console.log("Presence received: " + sfrom + " is now " + sstatus + " (" + sshow + ")")
+                UpdateContact(sfrom, 'i_status', sshow)
+                UpdateContact(sfrom, 'status', sstatus)
+              }
             }
           }
         }
@@ -352,7 +358,31 @@ function AskRoster(){
   var stanza = new Client.Stanza('iq', {id:'RosterGet', type:'get'})
   .c('query', {xmlns: 'jabber:iq:roster'})
   user.send(stanza)
-  console.log("Roster request sent.");
+  console.log("<<<<Roster request sent>>>>");
+}
+
+function SendCaps(){
+  var stanza = new Client.Stanza('presence', {from: jid})
+    .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.1', ver: 'a851fa35562402d48e7512d6f8b0063fb149e035'})
+
+  console.log("<<<<Sending cap presence>>>>");
+  console.log(stanza.tree().toString());
+  user.send(stanza)
+}
+
+function SendFeatures(id){
+  console.log("<<<<Sending features>>>>");
+  var stanza = new Client.Stanza('iq', {from: jid, to:"localhost", type: "result", id: id})
+    .c('query', {xmlns: "http://jabber.org/protocol/disco#info"})
+      .c('identity', {category: "client", type: "pc" }).up()
+      .c('feature', {var:'http://jabber.org/protocol/activity'}).up()
+      .c('feature', {var:'http://jabber.org/protocol/muc'}).up()
+      .c('feature', {var:'http://jabber.org/protocol/tune'}).up()
+      .c('feature', {var:'http://jabber.org/protocol/tune+notify'}).up()
+      .c('feature', {var:'http://jabber.org/protocol/nick'}).up()
+      .c('feature', {var:'http://jabber.org/protocol/nick+notify'}).up()
+  console.log(stanza.tree().toString());
+  user.send(stanza);
 }
 
 function RosterPopulate(stanza){
@@ -393,6 +423,7 @@ function LoginUser (loginjid, password){
 STATUS section
 */
 function SetStatus(newi_status) {
+  SendCaps();
   i_status = newi_status;
   if (newi_status == 'available'){
     var server_status = 'available'
@@ -447,6 +478,8 @@ ipcMain.on ('status-change', (event, newi_status) => {
   i_status = newi_status
   SetStatus(i_status);
 })
+
+
 
 //Sets the nickname WIP
 function SetNickname(newnickname, username){
@@ -699,7 +732,12 @@ function UpdateContact(email, item, value){
     main.webContents.send('contact-status-change', {from: email, status: value})
   }
   if (item == 'nickname'){
-    //WIP
+    stanza = new Client.Stanza('iq', {type:'set', id:'RosterSet-Nick'})
+      .c('query', {xmlns: 'jabber:iq:roster'})
+        .c('item', {jid: email, name: value})
+    user.send(stanza)
+    contact[email].nickname = value
+    main.webContents.send('contact-nickname-change', {email: email, nickname: value});
   }
 }
 
