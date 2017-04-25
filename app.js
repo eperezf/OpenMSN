@@ -358,20 +358,16 @@ function AskRoster(){
   var stanza = new Client.Stanza('iq', {id:'RosterGet', type:'get'})
   .c('query', {xmlns: 'jabber:iq:roster'})
   user.send(stanza)
-  console.log("<<<<Roster request sent>>>>");
 }
 
 function SendCaps(){
   var stanza = new Client.Stanza('presence', {from: jid})
     .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.1', ver: 'a851fa35562402d48e7512d6f8b0063fb149e035'})
-
-  console.log("<<<<Sending cap presence>>>>");
   console.log(stanza.tree().toString());
   user.send(stanza)
 }
 
 function SendFeatures(id){
-  console.log("<<<<Sending features>>>>");
   var stanza = new Client.Stanza('iq', {from: jid, to:"localhost", type: "result", id: id})
     .c('query', {xmlns: "http://jabber.org/protocol/disco#info"})
       .c('identity', {category: "client", type: "pc" }).up()
@@ -392,7 +388,6 @@ function RosterPopulate(stanza){
     var rnick = element.attrs.name
     if (rjid == jid){
       nickname = rnick
-      console.log("Saved Nickname from last login: " + rnick);
       main.webContents.send('nickname-change', {nickname: nickname})
     }
     else {
