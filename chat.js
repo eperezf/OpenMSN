@@ -41,12 +41,37 @@ function AppendChat(input, who){
   chat.appendChild(person)
   var text = document.createElement("li");
   text.className = "chat-text";
-  var msg = document.createTextNode(input);
   chat.appendChild(text);
-  text.appendChild(msg);
+  text.innerHTML(ReplaceEmoticons(input));
 
   var element = document.getElementById("historybox");
   element.appendChild(chat);
 
   element.scrollTop = element.scrollHeight;
+}
+
+function ReplaceEmoticons(text) {
+  var emoticons = {
+    ':-)' : 'smiley.png',
+    ':)'  : 'smiley.png',
+    ':D'  : 'grin.png',
+    ':-D' : 'grin.png',
+    ';)'  : 'wink.png',
+    ';-)' : 'wink.png'
+  }, url = "img/msn75/emoticons/", patterns = [],
+     metachars = /[[\]{}()*+?.\\|^$\-,&#\s]/g;
+
+  // build a regex pattern for each defined property
+  for (var i in emoticons) {
+    if (emoticons.hasOwnProperty(i)){ // escape metacharacters
+      patterns.push('('+i.replace(metachars, "\\$&")+')');
+    }
+  }
+
+  // build the regular expression and replace
+  return text.replace(new RegExp(patterns.join('|'),'g'), function (match) {
+    return typeof emoticons[match] != 'undefined' ?
+           '<img src="'+url+emoticons[match]+'"/>' :
+           match;
+  });
 }
