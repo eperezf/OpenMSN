@@ -243,10 +243,14 @@ function ListenStanzas(){
       if (stanza.attrs.type === 'chat'){
         //The stanza is a chat!
         if (stanza.getChild('composing') !== undefined){
-          //The stanza is a "typing..." type
+          if (chat[stanza.attrs.from]){
+            chat[stanza.attrs.from].webContents.send('typing')
+          }
         }
         else if (stanza.getChild('paused') !== undefined){
-          //The stanza is a "paused..." type
+          if (chat[stanza.attrs.from]){
+            chat[stanza.attrs.from].webContents.send('paused')
+          }
         }
         else {
           //It's a text message.
