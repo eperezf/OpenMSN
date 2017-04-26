@@ -418,7 +418,6 @@ function LoginUser (loginjid, password){
 STATUS section
 */
 function SetStatus(newi_status) {
-  SendCaps();
   i_status = newi_status;
   if (newi_status == 'available'){
     var server_status = 'available'
@@ -455,16 +454,18 @@ function SetStatus(newi_status) {
     status = 'Online'
     i_status = 'available'
     stanza = new Client.Stanza('presence', { })
+      .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.1', ver: 'a851fa35562402d48e7512d6f8b0063fb149e035'}).up()
       .c('status').t(status)
   }
   else {
     stanza = new Client.Stanza('presence', { })
+      .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.1', ver: 'a851fa35562402d48e7512d6f8b0063fb149e035'}).up()
       .c('show').t(server_status).up()
-      .c('status').t(status)
+        .c('status').t(status)
 
   }
+
   user.send(stanza)
-  console.log(stanza.tree().toString())
   console.log("New status: " + status + " (" + i_status + ")");
   main.webContents.send('status-change', {status: status, i_status: i_status});
 }
