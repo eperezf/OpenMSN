@@ -243,13 +243,19 @@ function ListenStanzas(){
       if (stanza.attrs.type === 'chat'){
         //The stanza is a chat!
         if (stanza.getChild('composing') !== undefined){
-          if (chat[stanza.attrs.from]){
-            chat[stanza.attrs.from].webContents.send('typing')
+          sfrom = stanza.attrs.from
+          sfrom = sfrom.substring(0, sfrom.indexOf('/'));
+          console.log(sfrom + " is typing...");
+          if (chat[sfrom]){
+            chat[sfrom].webContents.send('typing')
           }
         }
         else if (stanza.getChild('paused') !== undefined){
-          if (chat[stanza.attrs.from]){
-            chat[stanza.attrs.from].webContents.send('paused')
+          sfrom = stanza.attrs.from
+          sfrom = sfrom.substring(0, sfrom.indexOf('/'));
+          console.log(sfrom + " stopped typing...");
+          if (chat[sfrom]){
+            chat[sfrom].webContents.send('paused')
           }
         }
         else {
@@ -297,7 +303,6 @@ function ListenStanzas(){
       }
       else if (stanza.attrs.type == 'get'){
         console.log(">>>>Get type IQ received<<<<");
-        console.log(stanza.tree().toString());
         SendFeatures(stanza.attrs.id);
 
       }
@@ -366,7 +371,7 @@ function AskRoster(){
 
 function SendCaps(){
   var stanza = new Client.Stanza('presence', {from: jid})
-    .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.1', ver: 'a851fa35562402d48e7512d6f8b0063fb149e035'})
+    .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.3', ver: '249edcf1803a46c04beb427dbe723d1313cdb09a'})
   console.log(stanza.tree().toString());
   user.send(stanza)
 }
@@ -381,6 +386,7 @@ function SendFeatures(id){
       .c('feature', {var:'http://jabber.org/protocol/tune+notify'}).up()
       .c('feature', {var:'http://jabber.org/protocol/nick'}).up()
       .c('feature', {var:'http://jabber.org/protocol/nick+notify'}).up()
+      .c('feature', {var: 'http://jabber.org/protocol/chatstates'}).up()
   console.log(stanza.tree().toString());
   user.send(stanza);
 }
@@ -528,6 +534,20 @@ function SendMessage(contact, body){
   KeepAlive();
   console.log("Message to " + contact + ": " + body);
 }
+
+ipcMain.on('typing', (event, email) => {
+  var stanza = new Client.Stanza('message', {from: jid, to: email, type: 'chat',id:'MessageSent'})
+    .c('composing', {xmlns: "http://jabber.org/protocol/chatstates"})
+  user.send(stanza);
+  console.log("<<<<Sent typing stanza>>>>");
+})
+
+ipcMain.on('paused', (event, email) => {
+  var stanza = new Client.Stanza('message', {from: jid, to: email, type: 'chat',id:'MessageSent'})
+    .c('paused', {xmlns: "http://jabber.org/protocol/chatstates"})
+  user.send(stanza);
+  console.log("<<<<Sent paused stanza>>>>");
+})
 
 function MessageReceived(email, message){
   email = email.substring(0, email.indexOf('/'));

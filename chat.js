@@ -3,14 +3,27 @@ var message
 var nickname
 var email
 var own_nickname
+var typing = false;
+var timer = null;
+var reset = null;
 
 ipcRenderer.on('typing', (event, arg) => {
-  document.getElementById("typeinfo").textContent = nickname + " is typing..."
+  document.getElementById("typeinfo").innerHTML = nickname + " is typing..."
+  clearTimeout(reset)
 })
 
 ipcRenderer.on('paused', (event, arg) => {
-  document.getElementById("typeinfo").textContent = nickname + " stopped typing..."
+  if (document.getElementById("typeinfo").textContent != ""){
+    console.log("Contact stopped typing");
+    document.getElementById("typeinfo").innerHTML = nickname + " stopped typing..."
+    reset = setTimeout(ResetTypeInfo, 5000)
+  }
 })
+
+function ResetTypeInfo(){
+  document.getElementById("typeinfo").innerHTML = ""
+  console.log("resetted typeinfo");
+}
 
 ipcRenderer.on('contact-info', (event, arg) =>{
   console.log("Got contact info!");
@@ -34,12 +47,14 @@ function SetMessage (input){
     ipcRenderer.send('send-message', email, message)
     chatarea.value = ""
     message = ""
+    typing = false
   }
 }
 
 ipcRenderer.on('message-received', (event, arg)=> {
   console.log("New message: " + arg.message)
   AppendChat(arg.message, nickname)
+  document.getElementById("typeinfo").innerHTML = ""
 })
 
 function AppendChat(input, who){
@@ -57,4 +72,22 @@ function AppendChat(input, who){
   element.appendChild(chat);
 
   element.scrollTop = element.scrollHeight;
+}
+
+
+function SetTyping(){
+  if (typing == false){
+    ipcRenderer.send('typing', email)
+    console.log("You're typing!");
+    typing = true
+  }
+  clearTimeout(timer);
+  timer = setTimeout(StoppedTyping, 2000)
+
+}
+
+function StoppedTyping() {
+    console.log("You stopped typing!");
+    typing = false
+    ipcRenderer.send('paused', email)
 }

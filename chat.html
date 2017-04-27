@@ -21,7 +21,7 @@
           </div>
           <form class="form-inline">
             <div class="input-group">
-             <textarea class="form-control" id="chatarea"></textarea>
+             <textarea class="form-control" id="chatarea" oninput="SetTyping()"></textarea>
               <span class="input-group-btn">
                 <button class="btn btn-default sendbtn" type="button" onclick="SetMessage(chatarea.value)">Send</button>
               </span>
