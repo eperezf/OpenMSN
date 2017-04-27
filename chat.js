@@ -4,6 +4,14 @@ var nickname
 var email
 var own_nickname
 
+ipcRenderer.on('typing', (event, arg) => {
+  document.getElementById("typeinfo").textContent = nickname + " is typing..."
+})
+
+ipcRenderer.on('paused', (event, arg) => {
+  document.getElementById("typeinfo").textContent = nickname + " stopped typing..."
+})
+
 ipcRenderer.on('contact-info', (event, arg) =>{
   console.log("Got contact info!");
   nickname = arg.nickname
