@@ -1,9 +1,11 @@
-const ipcRenderer = require('electron').ipcRenderer
-const {shell} = require('electron')
+/* jshint esversion: 6 */
+
+const ipcRenderer = require('electron').ipcRenderer;
+const {shell} = require('electron');
 
 function LinkRegister (){
   console.log("Opening register!");
-  shell.openExternal('http://162.243.220.190/register.php')
+  shell.openExternal('http://162.243.220.190/register.php');
 }
 
 function submitLData(){
@@ -14,15 +16,15 @@ function submitLData(){
   var email = document.getElementById("email").value;
   var password = document.getElementById("password").value;
   var newi_tatus = document.getElementById("status").value;
-  console.log(email)
-  console.log(password)
-  ipcRenderer.send('login-data', email, password, newi_tatus)
+  console.log(email);
+  console.log(password);
+  ipcRenderer.send('login-data', email, password, newi_tatus);
 
 }
 
 function CheckKey(e) {
    if(e && e.keyCode == 13) {
-      submitLData()
+      submitLData();
    }
 }
 
@@ -37,17 +39,16 @@ ipcRenderer.on('login-status', (event, arg) => {
     loginbox.style.display = 'none';
   }
 
-})
+});
 
 window.onresize = function(event) {
-
-    if ((window.innerHeight < 465))  {
-      var profilepic = document.getElementById("profilepic");
-      profilepic.style.display = 'none';
-    }
-    else {
-      var profilepic = document.getElementById("profilepic");
-      profilepic.style.display = 'block';
-    }
-
-}
+  var profilepic;
+  if ((window.innerHeight < 465))  {
+    profilepic = document.getElementById("profilepic");
+    profilepic.style.display = 'none';
+  }
+  else {
+    profilepic = document.getElementById("profilepic");
+    profilepic.style.display = 'block';
+  }
+};

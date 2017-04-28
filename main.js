@@ -1,11 +1,13 @@
-const ipcRenderer = require('electron').ipcRenderer
+/* jshint esversion: 6 */
+
+const ipcRenderer = require('electron').ipcRenderer;
 
 var typeAudio = new Audio (__dirname + '/wav/MSN75/type.wav');
-var loginAudio = new Audio (__dirname + '/wav/MSN75/online.wav')
-var nickstat
-var i_status
-var nickname
-var status
+var loginAudio = new Audio (__dirname + '/wav/MSN75/online.wav');
+var nickstat;
+var i_status;
+var nickname;
+var status;
 
 ipcRenderer.on('message-received' , (event , arg) => {
   if (i_status == "available"){
@@ -19,8 +21,8 @@ ipcRenderer.on('message-received' , (event , arg) => {
 });
 
 ipcRenderer.on('nickname-change', (event, arg) => {
-  console.log('NICKNAME CHANGE: ' + arg.nickname)
-  nickname = arg.nickname
+  console.log('NICKNAME CHANGE: ' + arg.nickname);
+  nickname = arg.nickname;
   nickstat = nickname + " (" + status + ")";
   document.getElementById('nickstat').textContent = nickstat;
 });
@@ -29,29 +31,29 @@ ipcRenderer.on('nickname-change', (event, arg) => {
 Status section
 */
 ipcRenderer.on('status-change', (event, arg) => {
-  console.log('STATUS CHANGE: ' + arg.status + " (" + arg.i_status + ")")
+  console.log('STATUS CHANGE: ' + arg.status + " (" + arg.i_status + ")");
   if (arg.i_status == 'available'){
-    status = 'Online'
+    status = 'Online';
     i_status = arg.i_status;
   }
   else if (arg.i_status == 'dnd'){
-    status = 'Busy'
+    status = 'Busy';
     i_status = arg.i_status;
   }
   else if (arg.i_status == 'away-brb'){
-    status = 'Be Right Back'
+    status = 'Be Right Back';
     i_status = arg.i_status;
   }
   else if (arg.i_status == 'away'){
-    status = 'Away'
+    status = 'Away';
     i_status = arg.i_status;
   }
   else if (arg.i_status == 'dnd-otp'){
-    status = 'On The Phone'
+    status = 'On The Phone';
     i_status = arg.i_status;
   }
   else if (arg.i_status == 'away-otl'){
-    status = 'Out To Lunch'
+    status = 'Out To Lunch';
     i_status = arg.i_status;
   }
   nickstat = nickname + " ("+ status + ")";
