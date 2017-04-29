@@ -242,19 +242,19 @@ function ListenStanzas(){
       if (stanza.attrs.type === 'chat'){
         //The stanza is a chat!
         if (stanza.getChild('composing') !== undefined){
-          sfrom = stanza.attrs.from
+          sfrom = stanza.attrs.from;
           sfrom = sfrom.substring(0, sfrom.indexOf('/'));
           console.log(sfrom + " is typing...");
           if (chat[sfrom]){
-            chat[sfrom].webContents.send('typing')
+            chat[sfrom].webContents.send('typing');
           }
         }
         else if (stanza.getChild('paused') !== undefined){
-          sfrom = stanza.attrs.from
+          sfrom = stanza.attrs.from;
           sfrom = sfrom.substring(0, sfrom.indexOf('/'));
           console.log(sfrom + " stopped typing...");
           if (chat[sfrom]){
-            chat[sfrom].webContents.send('paused')
+            chat[sfrom].webContents.send('paused');
           }
         }
         else {
@@ -370,7 +370,7 @@ function AskRoster(){
 
 function SendCaps(){
   var stanza = new Client.Stanza('presence', {from: jid})
-    .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.3', ver: '249edcf1803a46c04beb427dbe723d1313cdb09a'})
+    .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.5', ver: '249edcf1803a46c04beb427dbe723d1313cdb09a'})
   console.log(stanza.tree().toString());
   user.send(stanza);
 }
