@@ -85,7 +85,6 @@ function ReplaceEmoticons(text) {
     '(8)'  : 'music.png',
     '(*)'  : 'star.png',
 
-
   }, url = "img/msn75/emoticons/", patterns = [],
      metachars = /[[\]{}()*+?.\\|^$\-,&#\s]/g;
 
