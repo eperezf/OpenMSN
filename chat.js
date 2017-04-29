@@ -75,15 +75,66 @@ function AppendChat(input, who){
   var person = document.createTextNode(who + " wrote:");
   chat.appendChild(person);
   var text = document.createElement("li");
+  text.innerHTML = ReplaceEmoticons(input)
   text.className = "chat-text";
-  var msg = document.createTextNode(input);
   chat.appendChild(text);
-  text.appendChild(msg);
+
 
   var element = document.getElementById("historybox");
   element.appendChild(chat);
 
   element.scrollTop = element.scrollHeight;
+}
+
+function ReplaceEmoticons(text) {
+  var emoticons = {
+    ':O'   : 'surprised.png',     ':o'  : 'surprised.png',    ':-O' : 'surprised.png',   ':-o' : 'surprised.png',
+    ':p'   : 'tonguesmile.png',   ':P'  : 'tonguesmile.png',  ':-p' : 'tonguesmile.png', ':-P' : 'tonguesmile.png',
+    ':D'   : 'grin.png',          ':-D' : 'grin.png',         ':d'  : 'grin.png',        ':-d' : 'grin.png',
+    ':s'   : 'confused.png',      ':S'  : 'confused.png',     ':-s' : 'confused.png',    ':-S' : 'confused.png',
+    ':-)'  : 'smile.png',         ':)'  : 'smile.png',
+    ';)'   : 'wink.gif',          ';-)' : 'wink.gif',
+    '(SO)' : 'soccer.png',        '(so)' : 'soccer.png',
+    ':('   : 'sad.png',           ':-(' : 'sad.png',
+    ':|'   : 'disappointed.png',  ':-|' : 'disappointed.png',
+    '(f)'  : 'rose.png',          '(F)'  : 'rose.png',
+    '(h)'  : 'cool.png',          '(H)' : 'cool.png',
+    '(a)'  : 'angel.png',         '(A)' : 'angel.png',
+    '(l)'  : 'heart.png',         '(L)' : 'heart.png',
+    '(m)'  : 'msnmsgr.png',       '(M)' : 'msnmsgr.png',
+    '(p)'  : 'camera.png',        '(P)' : 'camera.png',
+    '(W)'  : 'drose.png',         '(w)' : 'drose.png',
+    '(e)'  : 'envelope.png',      '(E)' : 'envelope.png',
+    '(g)'  : 'gift.png',          '(G)' : 'gift.png',
+    '(k)'  : 'kiss.png',          '(K)' : 'kiss.png',
+    '(s)'  : 'moon.png',          '(S)' : 'moon.png',
+    '(o)'  : 'clock.png',         '(O)' : 'clock.png',
+    ':@'   : 'angry.png',
+    ':$'   : 'shy.png',
+    '(6)'  : 'devil.png',
+    '(^)'  : 'cake.png',
+    '(@)'  : 'cat.png',
+    '(&)'  : 'dog.png',
+    '(~)'  : 'movie.png',
+    ":'("  : 'crying.gif',
+    '(8)'  : 'music.png',
+    '(*)'  : 'star.png',
+
+  }, url = "img/msn75/emoticons/", patterns = [],
+     metachars = /[[\]{}()*+?.\\|^$\-,&#\s]/g;
+
+  // build a regex pattern for each defined property
+  for (var i in emoticons) {
+    if (emoticons.hasOwnProperty(i)){ // escape metacharacters
+      patterns.push('('+i.replace(metachars, "\\$&")+')');
+    }
+  }
+  // build the regular expression and replace
+  return text.replace(new RegExp(patterns.join('|'),'g'), function (match) {
+    return typeof emoticons[match] != 'undefined' ?
+           '<img src="'+url+emoticons[match]+'"/>' :
+           match;
+  });
 }
 
 
