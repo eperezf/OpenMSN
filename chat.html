@@ -48,11 +48,11 @@
     <script src="webjs/bootstrap.js" ></script>
     <script>
       $("#chatarea").keypress(function (e) {
-          if(e.which == 13 && !e.shiftKey) {
-              SetMessage(chatarea.value)
-              e.preventDefault();
-              return false;
-          }
+        if(e.which == 13 && !e.shiftKey) {
+          SetMessage(chatarea.value)
+          e.preventDefault();
+          return false;
+        }
       });
     </script>
   </body>

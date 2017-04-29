@@ -504,12 +504,16 @@ function SetNickname(newnickname, username){
             .c('nick', {xmlns: "http://jabber.org/protocol/nick"}).t(nickname);
     user.send(stanza);
     console.log(stanza.tree().toString());
+    chat.forEach(function(entry){
+      chat[entry].webContents.send('contact-info', {nickname: contact[entry].nickname, email: entry, own_nickname: nickname})
+      console.log("running update contact info for " + entry + "'s window");
+    })
+
 
     console.log("Nickname changed to " + nickname);
     main.webContents.send('nickname-change', {nickname: nickname});
   }
   else {
-    console.log("Nickname is the same as the old one. Not changing.");
   }
 
 }
@@ -565,20 +569,17 @@ function MessageReceived(email, message){
 }
 
 function InfoFill(){
-  console.log("════INFO FILL PROCESS════");
 
   main.webContents.send('status-change', {status: status, i_status: i_status});
   main.webContents.send('nickname-change', {nickname: nickname});
   for (var key in contact) {
-    console.log("Filling: ${key} is ${contact[key].status} (${contact[key].i_status})");
-  	c_email = contact[key].email;
-  	c_nickname = contact[key].nickname;
-  	c_i_status = contact[key].i_status;
-    c_status = contact[key].status;
-  	c_subscription = contact[key].subscription;
-    main.webContents.send('insert-contact', {email: c_email, nickname: c_nickname, i_status: c_i_status, status: c_status, subscription: c_subscription});
+  	c_email = contact[key].email
+  	c_nickname = contact[key].nickname
+  	c_i_status = contact[key].i_status
+    c_status = contact[key].status
+  	c_subscription = contact[key].subscription
+    main.webContents.send('insert-contact', {email: c_email, nickname: c_nickname, i_status: c_i_status, status: c_status, subscription: c_subscription})
   }
-  console.log("════END INFO FILL PROCESS════");
 }
 
 app.on('window-all-closed', () => {
