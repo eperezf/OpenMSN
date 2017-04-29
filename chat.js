@@ -7,20 +7,20 @@ var email;
 var own_nickname;
 
 ipcRenderer.on('typing', (event, arg) => {
-  document.getElementById("typeinfo").innerHTML = nickname + " is typing..."
-  clearTimeout(reset)
+  document.getElementById("typeinfo").innerHTML = nickname + " is typing...";
+  clearTimeout(reset);
 })
 
 ipcRenderer.on('paused', (event, arg) => {
   if (document.getElementById("typeinfo").textContent != ""){
     console.log("Contact stopped typing");
-    document.getElementById("typeinfo").innerHTML = nickname + " stopped typing..."
-    reset = setTimeout(ResetTypeInfo, 5000)
+    document.getElementById("typeinfo").innerHTML = nickname + " stopped typing...";
+    reset = setTimeout(ResetTypeInfo, 5000);
   }
-})
+});
 
 function ResetTypeInfo(){
-  document.getElementById("typeinfo").innerHTML = ""
+  document.getElementById("typeinfo").innerHTML = "";
   console.log("resetted typeinfo");
 }
 
@@ -43,18 +43,18 @@ function SetMessage (input){
   else {
     console.log("Message is: " + message);
     AppendChat(message, own_nickname);
-    ipcRenderer.send('send-message', email, message)
-    chatarea.value = ""
-    message = ""
-    typing = false
+    ipcRenderer.send('send-message', email, message);
+    chatarea.value = "";
+    message = "";
+    typing = false;
   }
 }
 
 ipcRenderer.on('message-received', (event, arg)=> {
-  console.log("New message: " + arg.message)
-  AppendChat(arg.message, nickname)
-  document.getElementById("typeinfo").innerHTML = ""
-})
+  console.log("New message: " + arg.message);
+  AppendChat(arg.message, nickname);
+  document.getElementById("typeinfo").innerHTML = "";
+});
 
 ipcRenderer.on('nickname-change', (event, arg) => {
   console.log("Someone changed a nickname!!");
@@ -89,17 +89,17 @@ function AppendChat(input, who){
 
 function SetTyping(){
   if (typing == false){
-    ipcRenderer.send('typing', email)
+    ipcRenderer.send('typing', email);
     console.log("You're typing!");
-    typing = true
+    typing = true;
   }
   clearTimeout(timer);
-  timer = setTimeout(StoppedTyping, 2000)
+  timer = setTimeout(StoppedTyping, 2000);
 
 }
 
 function StoppedTyping() {
     console.log("You stopped typing!");
-    typing = false
-    ipcRenderer.send('paused', email)
+    typing = false;
+    ipcRenderer.send('paused', email);
 }
