@@ -150,7 +150,7 @@ ipcMain.on('open-chat', (event, email) => {
 });
 
 function OpenChat(email, focus){
-  if (chat[email] !== null){
+  if (chat[email] != null){
     console.log("!!!!There's already a chat screen for " + email + "!!!!");
   }
   else {
@@ -719,6 +719,10 @@ function UpdateContact(email, item, value){
     user.send(stanza);
     contact[email].nickname = value;
     main.webContents.send('contact-nickname-change', {email: email, nickname: value});
+    if (chat[email]){
+      console.log("chat screen exists. Sending it there!");
+      chat[email].webContents.send('nickname-change', {who: "contact", nickname: value});
+    }
   }
 }
 

@@ -36,6 +36,19 @@ ipcRenderer.on('message-received', (event, arg)=> {
   AppendChat(arg.message, nickname);
 });
 
+ipcRenderer.on('nickname-change', (event, arg) => {
+  console.log("Someone changed a nickname!!");
+  if (arg.who == "contact"){
+    console.log("It was the contact");
+    nickname = arg.nickname;
+    document.getElementById('nickname').textContent = nickname;
+  }
+  else {
+    console.log("It was you!");
+    own_nickname = arg.nickname;
+  }
+});
+
 function AppendChat(input, who){
   var chat = document.createElement("ul");
   chat.className = "chat-line";
