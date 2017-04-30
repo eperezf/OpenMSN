@@ -9,7 +9,7 @@ ipcRenderer.on('contact-info', (event, arg) =>{
   nickname = arg.nickname
   email = arg.email
   own_nickname = arg.own_nickname;
-  document.getElementById('nickname').textContent = nickname;
+  document.getElementById('nickname').innerHTML = ReplaceEmoticons(nickname);
   document.getElementById('email').textContent = email;
 })
 
@@ -95,12 +95,6 @@ function ReplaceEmoticons(text) {
     '(*)'  : 'star.png',
     '({)'  : 'manhug.png',
     '(})'  : 'womanhug.png',
-
-
-
-
-
-
 
   }, url = "img/msn75/emoticons/", patterns = [],
      metachars = /[[\]{}()*+?.\\|^$\-,&#\s]/g;
