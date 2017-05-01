@@ -1,0 +1,130 @@
+.chat-head {
+  border-color: #8596ca;
+  background-color: #ecf0f5;
+}
+
+.chat-panel {
+  border-color: #8596ca;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  margin-bottom: 9px;
+  height: 100%;
+}
+
+body {
+  background-color: #ecf0f5;
+}
+
+.container-bg {
+  background-image: url("msn75/785.png");
+  background-position: right bottom;
+  background-repeat: no-repeat;
+}
+
+.chat-col {
+  width: calc(100% - 134px);
+  padding-right: 8px;
+  padding-left: 12px;
+  height: 100%;
+  margin-bottom: 9px;
+}
+
+.pic-col {
+  width: 114px;
+  padding-left: 0px;
+  padding-right: 0px;
+  height: 119px;
+}
+
+.container-fluid {
+  padding-right: 0px;
+}
+
+.photo-frame {
+  height: 119px;
+  border-color: #8596ca;
+  background-color: #ecf0f5;
+}
+
+.pic-body {
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 3px;
+}
+
+.profile-pic {
+  border: 1px solid #8596ca;
+  border-radius: 4px;
+}
+
+.zero-margin {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.less-left-padding{
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+.input-col {
+  width: calc(100% - 134px);
+  padding-right: 8px;
+  padding-left: 12px;
+  height: 122px;
+}
+
+.input-panel {
+  border-color: #8596ca;
+  border-radius: 4px;
+  margin-bottom: 9px;
+  height: 122px;
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+.fill-to-bottom {
+  height: calc(100% - 148px);
+}
+
+.historybox {
+  max-height: calc(100% - 33px);
+  min-height: none;
+}
+
+.input-head {
+  height: 23px;
+  padding: 2px;
+  border-bottom: 1px solid #8596ca;
+  background: linear-gradient(to bottom, #d6e0f2 5%,#e8eff8 27%,#f0f4fb 41%,#ecf1f9 50%,#cfdbf0 86%,#cbd8ef 100%);
+}
+
+.input-body {
+  padding: 0px;
+  height: 74px;
+}
+
+.input-foot {
+  height: 23px;
+  padding: 2px;
+  border-top: 1px solid #8596ca;
+  background: linear-gradient(to bottom, #d6e0f2 5%,#e8eff8 27%,#f0f4fb 41%,#ecf1f9 50%,#cfdbf0 86%,#cbd8ef 100%);
+}
+
+.text-area {
+  height: 74px!important;
+  border: none;
+  background-color: transparent;
+  resize: none;
+  outline: none;
+  width: 100%;
+}
+
+.input-group-btn {
+  width: 58px!important;
+}
+
+.input-group {
+  width: 100%;
+}
