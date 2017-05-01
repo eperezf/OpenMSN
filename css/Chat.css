@@ -89,7 +89,8 @@ body {
 }
 
 .historybox {
-  min-height: calc(100% - 33px);
+  max-height: calc(100% - 33px);
+  min-height: none;
 }
 
 .input-head {
@@ -117,4 +118,13 @@ body {
   background-color: transparent;
   resize: none;
   outline: none;
+  width: 100%;
+}
+
+.input-group-btn {
+  width: 58px!important;
+}
+
+.input-group {
+  width: 100%;
 }

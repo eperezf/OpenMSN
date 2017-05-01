@@ -10,9 +10,9 @@ var reset;
 var timer;
 
 ipcRenderer.on('typing', (event, arg) => {
-  document.getElementById("typeinfo").innerHTML = nickname + " is typing...";
+  document.getElementById("typeinfo").innerHTML = '<img src="img/msn75/2003.png">  ' + nickname + " is typing...";
   clearTimeout(reset);
-})
+});
 
 ipcRenderer.on('paused', (event, arg) => {
   if (document.getElementById("typeinfo").textContent != ""){
