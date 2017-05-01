@@ -158,8 +158,6 @@ function OpenChat(email, focus){
       width:650,
       height:500,
       show:false,
-      minWidth:650,
-      minHeight:500,
       title: contact[email].nickname + " - Conversation"
     });
     chat[email].loadURL('file://' + __dirname + '/chat.html');
@@ -225,14 +223,6 @@ ipcMain.on('open-config', (event, defaulttab) => {
 ipcMain.on('nickname-change', (event, newnickname) => {
   SetNickname(newnickname, jid);
 });
-
-//Keep alive the connection
-function KeepAlive(){
-  setInterval(function() {
-    user.send(' ');
-
-  }, 30000);
-}
 
 function ListenStanzas(){
   user.on('stanza', function(stanza) {
