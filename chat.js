@@ -5,6 +5,9 @@ var message;
 var nickname;
 var email;
 var own_nickname;
+var typing;
+var reset;
+var timer;
 
 ipcRenderer.on('typing', (event, arg) => {
   document.getElementById("typeinfo").innerHTML = nickname + " is typing...";

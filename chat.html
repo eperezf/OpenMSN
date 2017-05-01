@@ -3,14 +3,15 @@
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/Chat.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-    <div class="container-fluid fill">
-      <div class="row">
-        <div class="col-md-9 col-sm-9 col-xs-9">
-          <div class="panel panel-default">
-            <div class="panel-heading">
+    <div class="container-fluid fill less-left-padding container-bg">
+      <div class="row zero-margin fill-to-bottom">
+        <div class="col-md-9 col-sm-9 col-xs-9 chat-col">
+          <div class="panel chat-panel">
+            <div class="panel-heading chat-head">
               <h3 class="panel-title">To: <div id="nickname" style="display:inline-block;">[NICKNAME]</div> <<div id="email" style="display:inline-block;">[EMAIL]</div>></h3>
             </div>
             <div class="panel-body historybox" id="historybox">
@@ -19,27 +20,42 @@
               </p>
             </div>
           </div>
-          <form class="form-inline">
-            <div class="input-group">
-             <textarea class="form-control" id="chatarea" oninput="SetTyping()"></textarea>
-              <span class="input-group-btn">
-                <button class="btn btn-default sendbtn" type="button" onclick="SetMessage(chatarea.value)">Send</button>
-              </span>
-            </div>
-          </form>
-          <div id="typeinfo">
-          </div>
         </div>
-        <div class="col-md-3 col-sm-3 col-xs-3">
-          <div class="panel panel-default">
-            <div class="panel-body">
-              PHOTO AREA
+        <div class="col-md-3 col-sm-3 col-xs-3 pic-col">
+          <div class="panel panel-default photo-frame">
+            <div class="panel-body pic-body">
+              <img src="img/msn75/1048.png" class="profile-pic">
             </div>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="row zero-margin">
+        <div class="col-md-9 col-sm-9 col-xs-9 input-col">
+          <div class="panel input-panel">
+            <div class="panel-heading input-head">
+              WORK IN PROGRESS
+            </div>
+            <div class="panel-body input-body">
+              <form class="form-inline">
+                <div class="input-group">
+                 <textarea class="text-area form-control" id="chatarea" oninput="SetTyping()"></textarea>
+                  <span class="input-group-btn">
+                    <button class="btn btn-default sendbtn" type="button" onclick="SetMessage(chatarea.value)">Send</button>
+                  </span>
+                </div>
+              </form>
+              <div id="typeinfo">
+              </div>
+            </div>
+            <div class="panel-footer input-foot">WORK IN PROGRESS</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-3 pic-col">
+          <div class="panel panel-default photo-frame">
+            <div class="panel-body pic-body">
+              <img src="img/msn75/1048.png" class="profile-pic">
+            </div>
+          </div>
         </div>
       </div>
     </div>
