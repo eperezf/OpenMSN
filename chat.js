@@ -37,8 +37,7 @@ ipcRenderer.on('message-received', (event, arg)=> {
 function AppendChat(input, who){
   var chat = document.createElement("ul");
   chat.className = "chat-line";
-  var person = document.createTextNode(who + " wrote:")
-  chat.appendChild(person)
+  chat.innerHTML = ReplaceEmoticons(who) + " wrote:"
   var text = document.createElement("li");
   text.innerHTML = ReplaceEmoticons(input)
   text.className = "chat-text";
