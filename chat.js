@@ -10,7 +10,7 @@ var reset;
 var timer;
 
 ipcRenderer.on('typing', (event, arg) => {
-  document.getElementById("typeinfo").innerHTML = '<img src="img/msn75/2003.png">  ' + nickname + " is typing...";
+  document.getElementById("typeinfo").innerHTML = '<img src="img/msn75/2003.png">  ' + ReplaceEmoticons(nickname) + " is typing...";
   clearTimeout(reset);
 });
 
@@ -75,16 +75,13 @@ ipcRenderer.on('nickname-change', (event, arg) => {
 function AppendChat(input, who){
   var chat = document.createElement("ul");
   chat.className = "chat-line";
-  chat.innerHTML = ReplaceEmoticons(who) + " wrote:"
+  chat.innerHTML = ReplaceEmoticons(who) + " wrote:";
   var text = document.createElement("li");
-  text.innerHTML = ReplaceEmoticons(input)
+  text.innerHTML = ReplaceEmoticons(input);
   text.className = "chat-text";
   chat.appendChild(text);
-
-
   var element = document.getElementById("historybox");
   element.appendChild(chat);
-
   element.scrollTop = element.scrollHeight;
 }
 
@@ -145,7 +142,7 @@ function ReplaceEmoticons(text) {
   // build the regular expression and replace
   return text.replace(new RegExp(patterns.join('|'),'g'), function (match) {
     return typeof emoticons[match] != 'undefined' ?
-           '<img src="'+url+emoticons[match]+'"/>' :
+           '<img src="'+url+emoticons[match]+'" class="emoticon"/>' :
            match;
   });
 }

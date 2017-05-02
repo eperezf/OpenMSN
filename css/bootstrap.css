@@ -6799,4 +6799,8 @@ textarea {
   list-style-type: none;
   padding-left: 15px;
 }
+
+.emoticon {
+  transform: translateY(-2px);
+}
 /*# sourceMappingURL=bootstrap.css.map */
