@@ -150,7 +150,7 @@ ipcMain.on('open-chat', (event, email) => {
 });
 
 function OpenChat(email, focus){
-  if (chat[email] != null){
+  if (chat[email]){
     console.log("!!!!There's already a chat screen for " + email + "!!!!");
   }
   else {
@@ -360,7 +360,7 @@ function AskRoster(){
 
 function SendCaps(){
   var stanza = new Client.Stanza('presence', {from: jid})
-    .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.7-alpha', ver: '249edcf1803a46c04beb427dbe723d1313cdb09a'})
+    .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.7-alpha', ver: '249edcf1803a46c04beb427dbe723d1313cdb09a'});
   console.log(stanza.tree().toString());
   user.send(stanza);
 }
@@ -375,7 +375,7 @@ function SendFeatures(id){
       .c('feature', {var:'http://jabber.org/protocol/tune+notify'}).up()
       .c('feature', {var:'http://jabber.org/protocol/nick'}).up()
       .c('feature', {var:'http://jabber.org/protocol/nick+notify'}).up()
-      .c('feature', {var: 'http://jabber.org/protocol/chatstates'}).up()
+      .c('feature', {var: 'http://jabber.org/protocol/chatstates'}).up();
   console.log(stanza.tree().toString());
   user.send(stanza);
 }
@@ -495,9 +495,9 @@ function SetNickname(newnickname, username){
     user.send(stanza);
     console.log(stanza.tree().toString());
     chat.forEach(function(entry){
-      chat[entry].webContents.send('contact-info', {nickname: contact[entry].nickname, email: entry, own_nickname: nickname})
+      chat[entry].webContents.send('contact-info', {nickname: contact[entry].nickname, email: entry, own_nickname: nickname});
       console.log("running update contact info for " + entry + "'s window");
-    })
+    });
 
 
     console.log("Nickname changed to " + nickname);
@@ -527,17 +527,15 @@ function SendMessage(contact, body){
 
 ipcMain.on('typing', (event, email) => {
   var stanza = new Client.Stanza('message', {from: jid, to: email, type: 'chat',id:'MessageSent'})
-    .c('composing', {xmlns: "http://jabber.org/protocol/chatstates"})
+    .c('composing', {xmlns: "http://jabber.org/protocol/chatstates"});
   user.send(stanza);
-  console.log("<<<<Sent typing stanza>>>>");
-})
+});
 
 ipcMain.on('paused', (event, email) => {
   var stanza = new Client.Stanza('message', {from: jid, to: email, type: 'chat',id:'MessageSent'})
-    .c('paused', {xmlns: "http://jabber.org/protocol/chatstates"})
+    .c('paused', {xmlns: "http://jabber.org/protocol/chatstates"});
   user.send(stanza);
-  console.log("<<<<Sent paused stanza>>>>");
-})
+});
 
 function MessageReceived(email, message){
   email = email.substring(0, email.indexOf('/'));
@@ -559,16 +557,15 @@ function MessageReceived(email, message){
 }
 
 function InfoFill(){
-
   main.webContents.send('status-change', {status: status, i_status: i_status});
   main.webContents.send('nickname-change', {nickname: nickname});
   for (var key in contact) {
-  	c_email = contact[key].email
-  	c_nickname = contact[key].nickname
-  	c_i_status = contact[key].i_status
-    c_status = contact[key].status
-  	c_subscription = contact[key].subscription
-    main.webContents.send('insert-contact', {email: c_email, nickname: c_nickname, i_status: c_i_status, status: c_status, subscription: c_subscription})
+  	c_email = contact[key].email;
+  	c_nickname = contact[key].nickname;
+  	c_i_status = contact[key].i_status;
+    c_status = contact[key].status;
+  	c_subscription = contact[key].subscription;
+    main.webContents.send('insert-contact', {email: c_email, nickname: c_nickname, i_status: c_i_status, status: c_status, subscription: c_subscription});
   }
 }
 
