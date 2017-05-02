@@ -46,12 +46,10 @@ var blocked = [];
 
 //Start of code
 
-//When the app is ready to be shown
 app.on('ready', function() {
   OpenStart();
 });
 
-//Keep alive the connection by sending an empty message periodically
 function KeepAlive(){
   setInterval(function() {
     user.send(' ');
@@ -59,13 +57,6 @@ function KeepAlive(){
   }, 30000);
 }
 
-/*
-1.- OpenStart(): The Start screen (login and password)
-2.- OpenMain(): Nickname, status, personal message, contact list and menus.
-3.- OpenAdded(from, id, nick): Added choice dialog
-*/
-
-//1.- The Start screen (login and password input)
 function OpenStart(){
   if (start !== null){
     console.log("There's already a start screen open.");
@@ -89,8 +80,6 @@ function OpenStart(){
   });
 }
 
-
-//2.- Main screen: Nickname, status, personal message, contact list and menus.
 function OpenMain(){
   if (main !== null){
     console.log("!!!!There's already a main screen open!!!!");
@@ -117,9 +106,6 @@ function OpenMain(){
   });
 }
 
-
-
-//4.- Config screen: Configuration and settings
 function OpenConfig(){
   if (config !== null){
     console.log("!!!!There's already a config screen open!!!!");
@@ -177,21 +163,6 @@ function OpenChat(email, focus){
   });
 }
 
-
-
-
-
-
-/*
-System message reception from renderer to main process:
-1.- login-data: When the login data from the logon screen is received
-2.- status-change: When there's a status change solicitude from the renderer.
-3.- accept-friend: When a contact approval is sent from the renderer.
-4.- open-config: When there's a solicitude from the renderer to open the configuration panel.
-5.- nickname-change: WHen there's a nickname change solicitude from the renderer.
-*/
-
-//1.- login-data: When the login data from the logon screen is received
 ipcMain.on ('login-data', (event, newjid, password, newi_status) => {
   jid = newjid;
   i_status = newi_status;
@@ -214,12 +185,10 @@ ipcMain.on ('login-data', (event, newjid, password, newi_status) => {
   });
 });
 
-//4.- open-config: When there's a solicitude from the renderer to open the configuration panel. TODO: the default tab opened in the solicitude.
 ipcMain.on('open-config', (event, defaulttab) => {
   OpenConfig();
 });
 
-//5.- nickname-change: When there's a nickname change solicitude from the renderer.
 ipcMain.on('nickname-change', (event, newnickname) => {
   SetNickname(newnickname, jid);
 });
@@ -351,7 +320,6 @@ function ListenStanzas(){
   });
 }
 
-//Get user's Roster (WIP)
 function AskRoster(){
   var stanza = new Client.Stanza('iq', {id:'RosterGet', type:'get'})
   .c('query', {xmlns: 'jabber:iq:roster'});
@@ -400,9 +368,6 @@ function RosterPopulate(stanza){
   });
 }
 
-
-
-//Do the login
 function LoginUser (loginjid, password){
   user = new Client({
     host: '162.243.220.190',
@@ -471,9 +436,10 @@ ipcMain.on ('status-change', (event, newi_status) => {
   SetStatus(i_status);
 });
 
+ipcMain.on('send-message', (event, email, message) => {
+  SendMessage(email, message);
+});
 
-
-//Sets the nickname WIP
 function SetNickname(newnickname, username){
   //check if it's the same as the old one!
   if (newnickname != nickname){
@@ -508,15 +474,6 @@ function SetNickname(newnickname, username){
 
 }
 
-/*
-Messaging section
-*/
-
-ipcMain.on('send-message', (event, email, message) => {
-  SendMessage(email, message);
-});
-
-//Send a message
 function SendMessage(contact, body){
   var stanza = new Client.Stanza('message', {to: contact, type: 'chat',id:'MessageSent'})
   .c('body').t(body);
@@ -575,6 +532,7 @@ app.on('window-all-closed', () => {
     user.end();
   }
 });
+
 app.on('activate', () => {
   if (start === null) {
     if (loggedIn){
@@ -585,44 +543,6 @@ app.on('activate', () => {
     }
   }
 });
-
-/*
-Contacts systems:
-
-USES:
-  added.js
-  add.js
-
-Functions:
-OpenAdded(email, id, nick)
-  Description: Opens the "X has added you".
-  Variables:
-    email: (string) the email of the person who added you
-    id: (string) the id of the subscription stanza. Not used yet
-    nick: (string) the nickname of the person
-
-OpenAdd()
-  Description: Opens the adding form
-  Variables:
-    none
-
-ContactFunction(email, nick, action)
-  Description: Decides what to do according to the different lists.
-    Variables:
-      email: (string) the email of the person
-      nick: (string) the nickname of the person
-      action: (string) subscribe if you want to add the person to the contact list, subscribed if you want to accept the person's subscribe request.
-
-AcceptContact(email)
-  Description: Accepts the contact. He will pass from the "requests" queue and will add him back if you don't have him
-  Variables:
-    email: (string) the email of the person you're accepting
-
-AddContact(email)
-  Description: Adds the contact to the "waiting" list
-  Variables:
-    email: (string) the email of the person you're adding
-*/
 
 function OpenAdded(email, id, nick){
   added.push(email);
@@ -744,6 +664,7 @@ function AddContact(email){
       .t(nickname);
   user.send(stanza);
   waiting.push(email);
+  InsertContact(email, email, "out");
 }
 
 ipcMain.on('accept-contact', (event, email, id, nick) => {
