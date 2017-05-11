@@ -366,6 +366,9 @@ function RosterPopulate(stanza){
       }
     }
   });
+  if (nickname === null){
+    SetNickname(jid, jid);
+  }
 }
 
 function LoginUser (loginjid, password){
