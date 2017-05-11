@@ -649,7 +649,9 @@ function UpdateContact(email, item, value){
       .c('query', {xmlns: 'jabber:iq:roster'})
         .c('item', {jid: email, name: value});
     user.send(stanza);
-    contact[email].nickname = value;
+    if (contact[email]){
+      contact[email].nickname = value;
+    }
     main.webContents.send('contact-nickname-change', {email: email, nickname: value});
     if (chat[email]){
       console.log("chat screen exists. Sending it there!");
