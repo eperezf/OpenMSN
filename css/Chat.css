@@ -119,6 +119,14 @@ body {
   resize: none;
   outline: none;
   width: 100%;
+  -webkit-appearance: none;
+}
+
+.text-area:focus {
+  outline: none;
+  outline-color: transparent;
+  outline-style: none;
+  -webkit-appearance: none;
 }
 
 .input-group-btn {
@@ -127,4 +135,33 @@ body {
 
 .input-group {
   width: 100%;
+}
+
+.sendbtn {
+  padding: 16px 12px;
+  border-radius: 4px!important;
+  box-shadow: inset -2px -2px 12px 0px #b9c8e6;
+  border: solid 1px #4f6ba0;
+  outline: none;
+  transition-duration: 0.3s;
+}
+
+.sendbtn:hover {
+  padding: 16px 12px;
+  border-radius: 4px!important;
+  box-shadow: inset -2px -2px 12px 0px #4eab49;
+  border: solid 1px #4f6ba0;
+  outline: none;
+  transition-duration: 0.3s;
+  background-color: #ffffff;
+}
+
+.sendbtn:focus {
+  padding: 16px 12px;
+  border-radius: 4px!important;
+  box-shadow: inset -2px -2px 12px 0px #4eab49;
+  border: solid 1px #4f6ba0;
+  outline: none;
+  transition-duration: 0.3s;
+  background-color: #ffffff;
 }

@@ -46,12 +46,10 @@ var blocked = [];
 
 //Start of code
 
-//When the app is ready to be shown
 app.on('ready', function() {
   OpenStart();
 });
 
-//Keep alive the connection by sending an empty message periodically
 function KeepAlive(){
   setInterval(function() {
     user.send(' ');
@@ -59,13 +57,6 @@ function KeepAlive(){
   }, 30000);
 }
 
-/*
-1.- OpenStart(): The Start screen (login and password)
-2.- OpenMain(): Nickname, status, personal message, contact list and menus.
-3.- OpenAdded(from, id, nick): Added choice dialog
-*/
-
-//1.- The Start screen (login and password input)
 function OpenStart(){
   if (start !== null){
     console.log("There's already a start screen open.");
@@ -74,7 +65,9 @@ function OpenStart(){
   else {
     start = new BrowserWindow ({
       width:290,
-      height:496,
+      height:520,
+      minHeight:380,
+      minWidth:280,
       show:false,
     });
     start.loadURL('file://' + __dirname + '/start.html');
@@ -89,8 +82,6 @@ function OpenStart(){
   });
 }
 
-
-//2.- Main screen: Nickname, status, personal message, contact list and menus.
 function OpenMain(){
   if (main !== null){
     console.log("!!!!There's already a main screen open!!!!");
@@ -100,8 +91,8 @@ function OpenMain(){
     main = new BrowserWindow ({
       width:287,
       height:512,
-      minWidth:287,
-      minHeight:512,
+      minWidth:295,
+      minHeight:280,
       show: false
     });
     main.loadURL('file://' + __dirname + '/main.html');
@@ -117,9 +108,6 @@ function OpenMain(){
   });
 }
 
-
-
-//4.- Config screen: Configuration and settings
 function OpenConfig(){
   if (config !== null){
     console.log("!!!!There's already a config screen open!!!!");
@@ -150,7 +138,7 @@ ipcMain.on('open-chat', (event, email) => {
 });
 
 function OpenChat(email, focus){
-  if (chat[email] != null){
+  if (chat[email]){
     console.log("!!!!There's already a chat screen for " + email + "!!!!");
   }
   else {
@@ -177,21 +165,6 @@ function OpenChat(email, focus){
   });
 }
 
-
-
-
-
-
-/*
-System message reception from renderer to main process:
-1.- login-data: When the login data from the logon screen is received
-2.- status-change: When there's a status change solicitude from the renderer.
-3.- accept-friend: When a contact approval is sent from the renderer.
-4.- open-config: When there's a solicitude from the renderer to open the configuration panel.
-5.- nickname-change: WHen there's a nickname change solicitude from the renderer.
-*/
-
-//1.- login-data: When the login data from the logon screen is received
 ipcMain.on ('login-data', (event, newjid, password, newi_status) => {
   jid = newjid;
   i_status = newi_status;
@@ -214,12 +187,10 @@ ipcMain.on ('login-data', (event, newjid, password, newi_status) => {
   });
 });
 
-//4.- open-config: When there's a solicitude from the renderer to open the configuration panel. TODO: the default tab opened in the solicitude.
 ipcMain.on('open-config', (event, defaulttab) => {
   OpenConfig();
 });
 
-//5.- nickname-change: When there's a nickname change solicitude from the renderer.
 ipcMain.on('nickname-change', (event, newnickname) => {
   SetNickname(newnickname, jid);
 });
@@ -351,7 +322,6 @@ function ListenStanzas(){
   });
 }
 
-//Get user's Roster (WIP)
 function AskRoster(){
   var stanza = new Client.Stanza('iq', {id:'RosterGet', type:'get'})
   .c('query', {xmlns: 'jabber:iq:roster'});
@@ -360,7 +330,7 @@ function AskRoster(){
 
 function SendCaps(){
   var stanza = new Client.Stanza('presence', {from: jid})
-    .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.7-alpha', ver: '249edcf1803a46c04beb427dbe723d1313cdb09a'})
+    .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.8-alpha', ver: '249edcf1803a46c04beb427dbe723d1313cdb09a'});
   console.log(stanza.tree().toString());
   user.send(stanza);
 }
@@ -375,7 +345,7 @@ function SendFeatures(id){
       .c('feature', {var:'http://jabber.org/protocol/tune+notify'}).up()
       .c('feature', {var:'http://jabber.org/protocol/nick'}).up()
       .c('feature', {var:'http://jabber.org/protocol/nick+notify'}).up()
-      .c('feature', {var: 'http://jabber.org/protocol/chatstates'}).up()
+      .c('feature', {var: 'http://jabber.org/protocol/chatstates'}).up();
   console.log(stanza.tree().toString());
   user.send(stanza);
 }
@@ -398,11 +368,11 @@ function RosterPopulate(stanza){
       }
     }
   });
+  if (nickname === null){
+    SetNickname(jid, jid);
+  }
 }
 
-
-
-//Do the login
 function LoginUser (loginjid, password){
   user = new Client({
     host: '162.243.220.190',
@@ -450,12 +420,12 @@ function SetStatus(newi_status) {
     status = 'Online';
     i_status = 'available';
     stanza = new Client.Stanza('presence', { })
-      .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.7-alpha', ver: 'a851fa35562402d48e7512d6f8b0063fb149e035'}).up()
+      .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.8-alpha', ver: 'a851fa35562402d48e7512d6f8b0063fb149e035'}).up()
       .c('status').t(status);
   }
   else {
     stanza = new Client.Stanza('presence', { })
-      .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.7-alpha', ver: 'a851fa35562402d48e7512d6f8b0063fb149e035'}).up()
+      .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.8-alpha', ver: 'a851fa35562402d48e7512d6f8b0063fb149e035'}).up()
       .c('show').t(server_status).up()
         .c('status').t(status);
 
@@ -471,9 +441,10 @@ ipcMain.on ('status-change', (event, newi_status) => {
   SetStatus(i_status);
 });
 
+ipcMain.on('send-message', (event, email, message) => {
+  SendMessage(email, message);
+});
 
-
-//Sets the nickname WIP
 function SetNickname(newnickname, username){
   //check if it's the same as the old one!
   if (newnickname != nickname){
@@ -495,9 +466,9 @@ function SetNickname(newnickname, username){
     user.send(stanza);
     console.log(stanza.tree().toString());
     chat.forEach(function(entry){
-      chat[entry].webContents.send('contact-info', {nickname: contact[entry].nickname, email: entry, own_nickname: nickname})
+      chat[entry].webContents.send('contact-info', {nickname: contact[entry].nickname, email: entry, own_nickname: nickname});
       console.log("running update contact info for " + entry + "'s window");
-    })
+    });
 
 
     console.log("Nickname changed to " + nickname);
@@ -508,15 +479,6 @@ function SetNickname(newnickname, username){
 
 }
 
-/*
-Messaging section
-*/
-
-ipcMain.on('send-message', (event, email, message) => {
-  SendMessage(email, message);
-});
-
-//Send a message
 function SendMessage(contact, body){
   var stanza = new Client.Stanza('message', {to: contact, type: 'chat',id:'MessageSent'})
   .c('body').t(body);
@@ -527,17 +489,15 @@ function SendMessage(contact, body){
 
 ipcMain.on('typing', (event, email) => {
   var stanza = new Client.Stanza('message', {from: jid, to: email, type: 'chat',id:'MessageSent'})
-    .c('composing', {xmlns: "http://jabber.org/protocol/chatstates"})
+    .c('composing', {xmlns: "http://jabber.org/protocol/chatstates"});
   user.send(stanza);
-  console.log("<<<<Sent typing stanza>>>>");
-})
+});
 
 ipcMain.on('paused', (event, email) => {
   var stanza = new Client.Stanza('message', {from: jid, to: email, type: 'chat',id:'MessageSent'})
-    .c('paused', {xmlns: "http://jabber.org/protocol/chatstates"})
+    .c('paused', {xmlns: "http://jabber.org/protocol/chatstates"});
   user.send(stanza);
-  console.log("<<<<Sent paused stanza>>>>");
-})
+});
 
 function MessageReceived(email, message){
   email = email.substring(0, email.indexOf('/'));
@@ -559,16 +519,15 @@ function MessageReceived(email, message){
 }
 
 function InfoFill(){
-
   main.webContents.send('status-change', {status: status, i_status: i_status});
   main.webContents.send('nickname-change', {nickname: nickname});
   for (var key in contact) {
-  	c_email = contact[key].email
-  	c_nickname = contact[key].nickname
-  	c_i_status = contact[key].i_status
-    c_status = contact[key].status
-  	c_subscription = contact[key].subscription
-    main.webContents.send('insert-contact', {email: c_email, nickname: c_nickname, i_status: c_i_status, status: c_status, subscription: c_subscription})
+  	c_email = contact[key].email;
+  	c_nickname = contact[key].nickname;
+  	c_i_status = contact[key].i_status;
+    c_status = contact[key].status;
+  	c_subscription = contact[key].subscription;
+    main.webContents.send('insert-contact', {email: c_email, nickname: c_nickname, i_status: c_i_status, status: c_status, subscription: c_subscription});
   }
 }
 
@@ -578,6 +537,7 @@ app.on('window-all-closed', () => {
     user.end();
   }
 });
+
 app.on('activate', () => {
   if (start === null) {
     if (loggedIn){
@@ -588,44 +548,6 @@ app.on('activate', () => {
     }
   }
 });
-
-/*
-Contacts systems:
-
-USES:
-  added.js
-  add.js
-
-Functions:
-OpenAdded(email, id, nick)
-  Description: Opens the "X has added you".
-  Variables:
-    email: (string) the email of the person who added you
-    id: (string) the id of the subscription stanza. Not used yet
-    nick: (string) the nickname of the person
-
-OpenAdd()
-  Description: Opens the adding form
-  Variables:
-    none
-
-ContactFunction(email, nick, action)
-  Description: Decides what to do according to the different lists.
-    Variables:
-      email: (string) the email of the person
-      nick: (string) the nickname of the person
-      action: (string) subscribe if you want to add the person to the contact list, subscribed if you want to accept the person's subscribe request.
-
-AcceptContact(email)
-  Description: Accepts the contact. He will pass from the "requests" queue and will add him back if you don't have him
-  Variables:
-    email: (string) the email of the person you're accepting
-
-AddContact(email)
-  Description: Adds the contact to the "waiting" list
-  Variables:
-    email: (string) the email of the person you're adding
-*/
 
 function OpenAdded(email, id, nick){
   added.push(email);
@@ -732,7 +654,9 @@ function UpdateContact(email, item, value){
       .c('query', {xmlns: 'jabber:iq:roster'})
         .c('item', {jid: email, name: value});
     user.send(stanza);
-    contact[email].nickname = value;
+    if (contact[email]){
+      contact[email].nickname = value;
+    }
     main.webContents.send('contact-nickname-change', {email: email, nickname: value});
     if (chat[email]){
       console.log("chat screen exists. Sending it there!");
@@ -747,6 +671,7 @@ function AddContact(email){
       .t(nickname);
   user.send(stanza);
   waiting.push(email);
+  InsertContact(email, email, "out");
 }
 
 ipcMain.on('accept-contact', (event, email, id, nick) => {
