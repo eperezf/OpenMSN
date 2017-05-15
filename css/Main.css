@@ -97,7 +97,7 @@ body {
 
 .contactlist {
   background-image: url('msn75/custbord-right.png'), url('msn75/custbord-l-r.png');
-  background-position: center right, center left 33px;
+  background-position: center right, center left 32px;
   background-repeat: repeat-y, repeat-y;
   padding-left: 37px;
   padding-right: 6px;
@@ -170,7 +170,7 @@ body {
   background-image:url(msn75/custbord-b-l.png), url(msn75/custbord-b-r.png), url(msn75/custbord-right.png), url(msn75/custbord-l-r.png), url(msn75/custbord-b.png) ;
     background-position: bottom left, bottom right, center right, center left, center bottom ;
     background-repeat: no-repeat, no-repeat,repeat-y, repeat-y, repeat-x ;
-    margin-left: 33px;
+    margin-left: 32px;
     padding-right: 6px;
     text-align: center;
 }
