@@ -232,11 +232,19 @@ function ListenStanzas(){
         }
       }
       else if (stanza.attrs.type === 'headline'){
-        if (stanza.getChild('event').getChild('items').attrs.node == "http://jabber.org/protocol/nick"){
-          var cnewnick = stanza.getChild('event').getChild('items').getChild('item').getChildText('nick');
-          if (stanza.attrs.from != jid){
-            UpdateContact(stanza.attrs.from, "nickname", cnewnick);
+        if (stanza.getChild('event')){
+          if (stanza.getChild('event').getChild('items').attrs.node == "http://jabber.org/protocol/nick"){
+            var cnewnick = stanza.getChild('event').getChild('items').getChild('item').getChildText('nick');
+            if (stanza.attrs.from != jid){
+              UpdateContact(stanza.attrs.from, "nickname", cnewnick);
+            }
           }
+        }
+        if (stanza.getChild('attention')){
+          sfrom = stanza.attrs.from;
+          sfrom = sfrom.substring(0, sfrom.indexOf('/'));
+          console.log("NUDGE FROM " + sfrom);
+          NudgeReceived(sfrom);
         }
       }
       else {
@@ -330,7 +338,7 @@ function AskRoster(){
 
 function SendCaps(){
   var stanza = new Client.Stanza('presence', {from: jid})
-    .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.8-alpha', ver: '249edcf1803a46c04beb427dbe723d1313cdb09a'});
+    .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.11-alpha', ver: '249edcf1803a46c04beb427dbe723d1313cdb09a'});
   console.log(stanza.tree().toString());
   user.send(stanza);
 }
@@ -345,7 +353,8 @@ function SendFeatures(id){
       .c('feature', {var:'http://jabber.org/protocol/tune+notify'}).up()
       .c('feature', {var:'http://jabber.org/protocol/nick'}).up()
       .c('feature', {var:'http://jabber.org/protocol/nick+notify'}).up()
-      .c('feature', {var: 'http://jabber.org/protocol/chatstates'}).up();
+      .c('feature', {var:'http://jabber.org/protocol/chatstates'}).up()
+      .c('feature', {var:'urn:xmpp:attention:0'}).up();
   console.log(stanza.tree().toString());
   user.send(stanza);
 }
@@ -420,12 +429,12 @@ function SetStatus(newi_status) {
     status = 'Online';
     i_status = 'available';
     stanza = new Client.Stanza('presence', { })
-      .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.8-alpha', ver: 'a851fa35562402d48e7512d6f8b0063fb149e035'}).up()
+      .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.11-alpha', ver: 'a851fa35562402d48e7512d6f8b0063fb149e035'}).up()
       .c('status').t(status);
   }
   else {
     stanza = new Client.Stanza('presence', { })
-      .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.8-alpha', ver: 'a851fa35562402d48e7512d6f8b0063fb149e035'}).up()
+      .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.11-alpha', ver: 'a851fa35562402d48e7512d6f8b0063fb149e035'}).up()
       .c('show').t(server_status).up()
         .c('status').t(status);
 
@@ -469,14 +478,11 @@ function SetNickname(newnickname, username){
       chat[entry].webContents.send('contact-info', {nickname: contact[entry].nickname, email: entry, own_nickname: nickname});
       console.log("running update contact info for " + entry + "'s window");
     });
-
-
     console.log("Nickname changed to " + nickname);
     main.webContents.send('nickname-change', {nickname: nickname});
   }
   else {
   }
-
 }
 
 function SendMessage(contact, body){
@@ -515,6 +521,24 @@ function MessageReceived(email, message){
   }
   if (process.platform == "darwin"){
     app.dock.bounce('informational');
+  }
+}
+
+function NudgeReceived(email){
+  if (chat[email]){
+    chat[email].webContents.send('nudge-received');
+    console.log(chat[email].getPosition());
+    chat[email].flashFrame(true);
+    chat[email].focus();
+  }
+  else {
+    OpenChat(email, "focused");
+    chat[email].once('ready-to-show', () => {
+      chat[email].webContents.send('nudge-received');
+    });
+    console.log(chat[email].getPosition());
+    chat[email].flashFrame(true);
+    chat[email].focus();
   }
 }
 
@@ -684,4 +708,10 @@ ipcMain.on('open-add', (event) => {
 
 ipcMain.on('add-contact', (event, email) => {
   AddContact(email);
+});
+
+ipcMain.on('nudge', (event, email) => {
+  var stanza = new Client.Stanza('message', {from: jid, to: email, type: 'headline'})
+    .c('attention', {xmlns:'urn:xmpp:attention:0'});
+  user.send(stanza);
 });
