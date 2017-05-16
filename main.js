@@ -218,14 +218,24 @@ function OpenChat(email){
 
 function clickSingleA(a)
 {
-    items = document.querySelectorAll('.contactitem.cactive');
+  items = document.querySelectorAll('.contactitem.cactive');
+  if (items.length){
+    items[0].className = 'contactitem';
+  }
+  a.className = 'contactitem cactive';
+}
 
-    if(items.length)
-    {
-        items[0].className = 'contactitem';
-    }
-
-    a.className = 'contactitem cactive';
+function Togglegroup(groupname){
+  list = document.getElementById(groupname);
+  icon = document.getElementById(groupname.replace("list", "icon"));
+  if (list.style.display === "none"){
+    list.style.display = 'block';
+    icon.src="img/msn75/1082.png";
+  }
+  else {
+    list.style.display = 'none';
+    icon.src="img/msn75/1081.png";
+  }
 }
 
 function ReplaceEmoticons(text) {
