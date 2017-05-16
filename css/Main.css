@@ -58,7 +58,7 @@ body {
 }
 
 .infolines {
-  width: auto;
+  width: calc(100% - 66px);
   padding-top: 7px;
 }
 
@@ -195,4 +195,29 @@ body {
 
 .upmessage {
   color: grey;
+}
+
+.statusbut {
+  background: none;
+  font-size: 12px;
+  padding-left: 8px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.statusbt:focus {
+    outline: none;
+    background: rgba(199, 199, 199, 0.53);
+    border: 1px solid #adb9dc;
+    border-radius: 2px;
+}
+
+.status-text {
+  color: gray;
+}
+
+.status-dropdown {
+  min-width: 180px;
+  padding: 5px 3px;
+  border-radius: 0px;
 }
