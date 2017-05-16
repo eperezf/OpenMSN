@@ -1,7 +1,7 @@
 {
   "name": "OpenMSN",
   "productName": "OpenMSN",
-  "version": "0.1.7-alpha",
+  "version": "0.1.11-alpha",
   "description": "OpenMSN Project",
   "main": "app.js",
   "scripts": {

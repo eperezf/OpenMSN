@@ -6787,15 +6787,6 @@ textarea {
   font-size: 11px;
 }
 
-.chat-line {
-  padding-left: 0px;
-}
-
-.chat-text {
-  list-style-type: none;
-  padding-left: 15px;
-}
-
 .emoticon {
   transform: translateY(-2px);
 }
