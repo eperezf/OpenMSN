@@ -1,4 +1,4 @@
-# OpenMSN v0.1.11-alpha
+# OpenMSN v0.1.12-alpha
 
 #### Project
 
@@ -20,6 +20,7 @@ Almost all basic functions are available:
 * Add and accept contact requests
 * Almost every emoticon either on nickname or Chat
 * Nickname and standard status changes
+* Nudges
 * Old classic design with all its perks and quirks.
 
 #### To-Do
@@ -27,7 +28,6 @@ Almost all basic functions are available:
 * Profile picture system
 * Personal Message
 * Away or Not Available notification on chat Message
-* Nudges
 * Winks (they were quite annoying. Not sure to implement them)
 * "What are you listening" implementation (Spotify/Windows Music/iTunes APIs?)
 * File sending (might not implement this due to limited server power)

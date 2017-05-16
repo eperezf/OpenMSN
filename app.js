@@ -338,7 +338,7 @@ function AskRoster(){
 
 function SendCaps(){
   var stanza = new Client.Stanza('presence', {from: jid})
-    .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.11-alpha', ver: '249edcf1803a46c04beb427dbe723d1313cdb09a'});
+    .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.12-alpha', ver: '249edcf1803a46c04beb427dbe723d1313cdb09a'});
   console.log(stanza.tree().toString());
   user.send(stanza);
 }
@@ -429,12 +429,12 @@ function SetStatus(newi_status) {
     status = 'Online';
     i_status = 'available';
     stanza = new Client.Stanza('presence', { })
-      .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.11-alpha', ver: 'a851fa35562402d48e7512d6f8b0063fb149e035'}).up()
+      .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.12-alpha', ver: 'a851fa35562402d48e7512d6f8b0063fb149e035'}).up()
       .c('status').t(status);
   }
   else {
     stanza = new Client.Stanza('presence', { })
-      .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.11-alpha', ver: 'a851fa35562402d48e7512d6f8b0063fb149e035'}).up()
+      .c('c', {xmlns: 'http://jabber.org/protocol/caps', node: 'OpenMSN 0.1.12-alpha', ver: 'a851fa35562402d48e7512d6f8b0063fb149e035'}).up()
       .c('show').t(server_status).up()
         .c('status').t(status);
 
