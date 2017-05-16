@@ -89,10 +89,10 @@ function OpenMain(){
   }
   else {
     main = new BrowserWindow ({
-      width:287,
+      width:295,
       height:512,
       minWidth:295,
-      minHeight:280,
+      minHeight:425,
       show: false
     });
     main.loadURL('file://' + __dirname + '/main.html');
