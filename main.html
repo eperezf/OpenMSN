@@ -20,24 +20,25 @@
           <img src="img/msn75/1048.png" class="picture"/>
         </div>
         <div class="col-md-10 col-sm-10 col-xs-10 nopadding infolines">
-          <div class="col-md-12">
-            <div class="status">
-              <select name="status" class="statusselect" id="statusselect" onchange="SetStatus(this)">
-                <option value="show" disabled selected hidden id="nickstat">Eduardo Pérez (Online)</option>
-                <option value="available">Online</option>
-                <option value="dnd">Busy</option>
-                <option value="away-brb">Be Right Back</option>
-                <option value="away">Away</option>
-                <option value="dnd-otp">On The Phone</option>
-                <option value="away-otl">Out To Lunch</option>
-                <option disabled>──────────</option>
-                <option value="cfg-vcc">View my contact card</option>
-                <option value="cfg-cdp">Change my Display Picture</option>
-                <option disabled>──────────</option>
-                <option value="cfg-pse">Personal Settings</option>
-              </select>
-            </div>
-          </div>
+
+              <div class="dropdown">
+                <button class="btn  dropdown-toggle statusbut" type="button" data-toggle="dropdown" id="nickstat">[NICKNAME]
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu status-dropdown">
+                  <li onclick="SetStatus('available')">Online</li>
+                  <li onclick="SetStatus('dnd')">Busy</li>
+                  <li onclick="SetStatus('away-brb')">Be Right Back</li>
+                  <li onclick="SetStatus('away')">Away</li>
+                  <li onclick="SetStatus('dnd-otp')">On The Phone</li>
+                  <li onclick="SetStatus('away-otl')">Out To Lunch</li>
+                  <li role="presentation" class="divider"></li>
+                  <li onclick="SetStatus('cfg-vcc')">View my contact card</li>
+                  <li onclick="SetStatus('cfg-cdp')">Change my Display Picture</li>
+                  <li role="presentation" class="divider"></li>
+                  <li onclick="SetStatus('cfg-pse')">Personal Settings</li>
+                </ul>
+              </div>
+
           <div class="col-md-12 leftbump upmessage">
             type a personal message
           </div>
@@ -63,10 +64,14 @@
       </div>
       <div class="col-md-12 contactlist">
         <div class="clisttable">
-          <img src="img/msn75/1082.png" class="caticon"/>Online
+          <div class="grouptitle">
+            <img src="img/msn75/1082.png" class="caticon" onclick="Togglegroup('onlinelist')" id="onlineicon"/>Online
+          </div>
           <div class="ctree" id="onlinelist">
           </div>
-          <img src="img/msn75/1082.png" class="caticon"/>Offline
+          <div class="grouptitle">
+            <img src="img/msn75/1082.png" class="caticon" onclick="Togglegroup('offlinelist')" id="offlineicon"/>Offline
+          </div>
           <div class="ctree" id="offlinelist">
           </div>
         </div>

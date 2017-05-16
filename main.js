@@ -23,8 +23,8 @@ ipcRenderer.on('message-received' , (event , arg) => {
 ipcRenderer.on('nickname-change', (event, arg) => {
   console.log('NICKNAME CHANGE: ' + arg.nickname);
   nickname = arg.nickname;
-  nickstat = nickname + " (" + status + ")";
-  document.getElementById('nickstat').textContent = nickstat;
+  nickstat = ReplaceEmoticons(nickname) + ' <div class="inline status-text">('+ status + ')</div>';
+  document.getElementById('nickstat').innerHTML = nickstat;
 });
 
 /*
@@ -56,26 +56,45 @@ ipcRenderer.on('status-change', (event, arg) => {
     status = 'Out To Lunch';
     i_status = arg.i_status;
   }
-  nickstat = nickname + " ("+ status + ")";
-  document.getElementById('statusselect').value="show";
-  document.getElementById('nickstat').textContent = nickstat;
+  nickstat = ReplaceEmoticons(nickname) + ' <div class="inline status-text">('+ status + ')</div>';
+  document.getElementById('nickstat').innerHTML = nickstat;
 });
 
-function SetStatus (selectObject) {
-  var newi_status = selectObject.value;
-  if (newi_status.includes("cfg")){
+function SetStatus (new_status) {
+  console.log("New status request: " + new_status);
+  if (new_status == 'available'){
+    status = 'Online';
+  }
+  else if (new_status == 'dnd'){
+    status = 'Busy';
+  }
+  else if (new_status == 'away-brb'){
+    status = 'Be Right Back';
+  }
+  else if (new_status == 'away'){
+    status = 'Away';
+  }
+  else if (new_status == 'dnd-otp'){
+    status = 'On The Phone';
+  }
+  else if (new_status == 'away-otl'){
+    status = 'Out To Lunch';
+  }
+
+  if (new_status.includes("cfg")){
     openConfig();
     console.log("CONFIG SELECTION");
-    nickstat = nickname + " ("+ status + ")";
-    document.getElementById('statusselect').value="show";
-    document.getElementById('nickstat').textContent = nickstat;
+    nickstat = ReplaceEmoticons(nickname) + ' <div class="inline status-text">('+ status + ')</div>';
+    document.getElementById('nickstat').innerHTML = nickstat;
   }
   else {
-    if (newi_status != i_status){
-      nickstat = nickname + " ("+ status + ")";
-      document.getElementById('statusselect').value="show";
-      document.getElementById('nickstat').textContent = nickstat;
-      ipcRenderer.send('status-change', newi_status);
+    if (new_status != i_status){
+      console.log("i_status is now " + i_status);
+      console.log("Status is now " + status);
+      i_status = new_status;
+      nickstat = ReplaceEmoticons(nickname) + ' <div class="inline status-text">('+ status + ')</div>';
+      document.getElementById('nickstat').innerHTML = nickstat;
+      ipcRenderer.send('status-change', new_status);
     }
   }
 }
@@ -97,9 +116,9 @@ ipcRenderer.on('contact-status-change', (event, arg) => {
 });
 
 ipcRenderer.on('contact-nickname-change', (event, arg) => {
-  document.getElementById(arg.email).getElementsByClassName("cnickname")[0].innerHTML = ReplaceEmoticons(arg.nickname)
-  console.log('Contact ' + arg.from + ' changed his status to ' + arg.nickname)
-})
+  document.getElementById(arg.email).getElementsByClassName("cnickname")[0].innerHTML = ReplaceEmoticons(arg.nickname);
+  console.log('Contact ' + arg.from + ' changed his status to ' + arg.nickname);
+});
 
 ipcRenderer.on('insert-contact', (event, arg) =>{
   console.log("Contact info received: " + arg.email + " is " + arg.status + " (" + arg.i_status + ")");
@@ -199,14 +218,24 @@ function OpenChat(email){
 
 function clickSingleA(a)
 {
-    items = document.querySelectorAll('.contactitem.cactive');
+  items = document.querySelectorAll('.contactitem.cactive');
+  if (items.length){
+    items[0].className = 'contactitem';
+  }
+  a.className = 'contactitem cactive';
+}
 
-    if(items.length)
-    {
-        items[0].className = 'contactitem';
-    }
-
-    a.className = 'contactitem cactive';
+function Togglegroup(groupname){
+  list = document.getElementById(groupname);
+  icon = document.getElementById(groupname.replace("list", "icon"));
+  if (list.style.display === "none"){
+    list.style.display = 'block';
+    icon.src="img/msn75/1082.png";
+  }
+  else {
+    list.style.display = 'none';
+    icon.src="img/msn75/1081.png";
+  }
 }
 
 function ReplaceEmoticons(text) {

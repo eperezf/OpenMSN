@@ -165,3 +165,23 @@ body {
   transition-duration: 0.3s;
   background-color: #ffffff;
 }
+
+.chat-line {
+  padding-left: 0px;
+  color: gray;
+}
+
+.chat-text {
+  list-style-type: none;
+  padding-left: 15px;
+  color: black;
+}
+
+.system-line {
+  margin-left: 0px;
+  padding-left: 0px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+}

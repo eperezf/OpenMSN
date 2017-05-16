@@ -1,6 +1,7 @@
 /* jshint esversion: 6 */
 
 const ipcRenderer = require('electron').ipcRenderer;
+var nudgeAudio = new Audio (__dirname + '/wav/MSN75/nudge.wav');
 var message;
 var nickname;
 var email;
@@ -8,6 +9,9 @@ var own_nickname;
 var typing;
 var reset;
 var timer;
+var nudgecool = false;
+var lastnudge = false;
+var lastsentnudge = false;
 
 ipcRenderer.on('typing', (event, arg) => {
   document.getElementById("typeinfo").innerHTML = '<img src="img/msn75/2003.png">  ' + ReplaceEmoticons(nickname) + " is typing...";
@@ -20,6 +24,11 @@ ipcRenderer.on('paused', (event, arg) => {
     document.getElementById("typeinfo").innerHTML = nickname + " stopped typing...";
     reset = setTimeout(ResetTypeInfo, 5000);
   }
+});
+
+ipcRenderer.on('nudge-received', (event, arg) => {
+  nudgeAudio.play();
+  AppendSystemLog('nudge');
 });
 
 function ResetTypeInfo(){
@@ -83,6 +92,27 @@ function AppendChat(input, who){
   var element = document.getElementById("historybox");
   element.appendChild(chat);
   element.scrollTop = element.scrollHeight;
+  lastnudge = false;
+  lastsentnudge = false;
+}
+
+function AppendSystemLog(type){
+  var element = document.getElementById("historybox");
+  var chat = document.createElement("ul");
+  if (type === "nudge" && lastnudge === false){
+    chat.className = "system-line";
+    chat.innerHTML = ReplaceEmoticons(nickname) + " sent you a nudge";
+    element.appendChild(chat);
+    element.scrollTop = element.scrollHeight;
+    lastnudge = true;
+  }
+  else if (type === "sent-nudge" && lastsentnudge === false){
+    chat.className = "system-line";
+    chat.innerHTML = "You just sent a nudge!";
+    element.appendChild(chat);
+    element.scrollTop = element.scrollHeight;
+    lastsentnudge = true;
+  }
 }
 
 function ReplaceEmoticons(text) {
@@ -163,4 +193,16 @@ function StoppedTyping() {
     console.log("You stopped typing!");
     typing = false;
     ipcRenderer.send('paused', email);
+}
+
+function SendNudge (){
+  if (nudgecool === false){
+    ipcRenderer.send('nudge', email);
+    nudgecool = true;
+    AppendSystemLog('sent-nudge');
+    setTimeout(function(){ nudgecool = false; }, 3000);
+  }
+  else {
+    console.log("Too much nudging!");
+  }
 }
