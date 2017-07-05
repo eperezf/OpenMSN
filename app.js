@@ -59,7 +59,6 @@ function KeepAlive(){
 
 function OpenStart(){
   if (start !== null){
-    console.log("There's already a start screen open.");
     start.focus();
   }
   else {
@@ -73,18 +72,15 @@ function OpenStart(){
     start.loadURL('file://' + __dirname + '/start.html');
     start.once('ready-to-show', () => {
       start.show();
-      console.log("!!!!Start screen has been created!!!!");
     });
   }
   start.on('closed', () => {
-    console.log("!!!!Start screen has been closed!!!!");
     start = null;
   });
 }
 
 function OpenMain(){
   if (main !== null){
-    console.log("!!!!There's already a main screen open!!!!");
     main.focus();
   }
   else {
@@ -98,19 +94,16 @@ function OpenMain(){
     main.loadURL('file://' + __dirname + '/main.html');
     main.once('ready-to-show', () => {
       main.show();
-      console.log("!!!!Main screen has been created!!!!");
       InfoFill();
     });
   }
   main.on('closed', () => {
-    console.log("!!!!Main Screen has been closed!!!!");
     main = null;
   });
 }
 
 function OpenConfig(){
   if (config !== null){
-    console.log("!!!!There's already a config screen open!!!!");
     config.focus();
   }
   else {
